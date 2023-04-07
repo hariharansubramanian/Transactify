@@ -21,4 +21,17 @@ public class Account {
     private BigDecimal balance;
 
     private Currency currency;
+
+    // Getters and setters
+    public long getId() {
+        return id;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
 }

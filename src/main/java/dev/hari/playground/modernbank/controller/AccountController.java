@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Account", description = "APIs to get account information")
 public class AccountController {
 
-    @GetMapping("{accountId}")
+    @GetMapping("{accountId}/balance")
     @Operation(summary = "Get account balance", description = "Gets account balance of the account id specified in request body", tags = {"Account"})
     @ApiResponse(responseCode = "200", description = "Returns the specified account's balance", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true)
     @ApiResponse(responseCode = "400", description = "Invalid Account ID supplied", content = @Content(mediaType = "application/json"))
