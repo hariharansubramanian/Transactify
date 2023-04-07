@@ -2,7 +2,7 @@ package dev.hari.playground.modernbank.database;
 
 import dev.hari.playground.modernbank.model.Account;
 import dev.hari.playground.modernbank.model.AccountBuilder;
-import dev.hari.playground.modernbank.repository.impl.JpaAccountRepository;
+import dev.hari.playground.modernbank.repository.AccountRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -11,9 +11,9 @@ import java.util.Currency;
 
 @Component
 public class JpaDatabaseSeeder implements CommandLineRunner {
-    private final JpaAccountRepository jpaAccountRepository;
+    private final AccountRepository jpaAccountRepository;
 
-    public JpaDatabaseSeeder(JpaAccountRepository jpaAccountRepository) {
+    public JpaDatabaseSeeder(AccountRepository jpaAccountRepository) {
         this.jpaAccountRepository = jpaAccountRepository;
     }
 

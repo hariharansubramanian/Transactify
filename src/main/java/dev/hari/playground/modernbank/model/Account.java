@@ -26,7 +26,8 @@ public class Account {
 
     private Currency currency;
 
-    // Getters and setters
+    // Getters & Setters
+
     public long getId() {
         return id;
     }
@@ -51,5 +52,13 @@ public class Account {
         this.isActive = isActive;
     }
 
+    // Business Methods
 
+    /**
+     * Check if the balance of the account is equal to the given balance by ignoring the scale of precisions
+     * Note: 1000.00 and 1000.000 are not equal when using {@link BigDecimal#equals(Object)}, but they are equal when using {@link BigDecimal#compareTo(BigDecimal)}
+     */
+    public boolean isBalanceEqualTo(BigDecimal balance) {
+        return this.balance.compareTo(balance) == 0;
+    }
 }

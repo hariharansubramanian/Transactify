@@ -1,6 +1,7 @@
 package dev.hari.playground.modernbank.service.impl;
 
 import dev.hari.playground.modernbank.dto.GetAccountBalanceResult;
+import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.model.Account;
 import dev.hari.playground.modernbank.repository.AccountRepository;
 import dev.hari.playground.modernbank.service.AccountService;
@@ -20,7 +21,13 @@ public class BankAccountService implements AccountService {
     }
 
     @Override
-    public GetAccountBalanceResult getAccountBalance(long accountId) {
-        throw new NotImplementedException("Not implemented yet");
+    public GetAccountBalanceResult getAccountBalance(long accountId) throws InvalidAccountException {
+        Account account = accountRepository.findAccountById(accountId);
+
+        if (account == null) {
+            throw new InvalidAccountException("Account with id ${accountId} does not exist");
+        }
+
+        return GetAccountBalanceResult.fromEntity(account);
     }
 }
