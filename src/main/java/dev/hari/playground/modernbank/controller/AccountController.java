@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/accounts")
-@Tag(name = "Account", description = "Account API")
+@Tag(name = "Account", description = "APIs to get account information")
 public class AccountController {
 
     @GetMapping("{accountId}")
