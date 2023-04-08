@@ -3,14 +3,17 @@ package dev.hari.playground.modernbank.controller;
 import dev.hari.playground.modernbank.dto.GetBalance.GetAccountBalanceResult;
 import dev.hari.playground.modernbank.dto.GetStatement.GetStatementResult;
 import dev.hari.playground.modernbank.exception.ErrorDetail;
+import dev.hari.playground.modernbank.exception.ExceededMaxRequestedTransactionsException;
 import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.service.AccountService;
+import dev.hari.playground.modernbank.service.impl.BankAccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Max;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -48,11 +51,15 @@ public class AccountController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = GetStatementResult.class)), useReturnTypeSchema = true)
     @ApiResponse(responseCode = "400",
             description = "Invalid Account ID supplied",
-            content = @Content(mediaType = "application/json"))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDetail.class)))
+    @ApiResponse(responseCode = "400",
+            description = "Too many transactions requested",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDetail.class)))
     public GetStatementResult getStatement(@Parameter(description = "Account id to get statement for", required = true)
                                            @PathVariable long accountId,
                                            @Parameter(description = "The number of transactions to list in the statement. Defaults to the last 20 transactions. Must be greater than 0 and less than 50 ", required = false)
-                                           @RequestParam(defaultValue = "20") int transactionCount) {
-        throw new NotImplementedException("Not implemented yet");
+                                           @RequestParam(defaultValue = "20") @Max(value = BankAccountService.MAX_REQUESTED_TRANSACTIONS_LIMIT) int transactionCount) throws ExceededMaxRequestedTransactionsException, InvalidAccountException {
+
+        return accountService.getStatement(accountId, transactionCount);
     }
 }

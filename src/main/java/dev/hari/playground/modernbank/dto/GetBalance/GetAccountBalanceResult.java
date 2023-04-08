@@ -18,7 +18,7 @@ public class GetAccountBalanceResult {
     public static GetAccountBalanceResult fromEntity(Account account) {
         var result = new GetAccountBalanceResult();
         result.accountId = account.id;
-        result.currency = account.currency.getDisplayName();
+        result.currency = account.currency.getCurrencyCode();
         result.balance = account.balance;
         return result;
     }

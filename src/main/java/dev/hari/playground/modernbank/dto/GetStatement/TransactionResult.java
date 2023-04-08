@@ -15,7 +15,7 @@ public class TransactionResult {
         var result = new TransactionResult();
         result.type = transaction.type.name();
         result.amount = transaction.getAmount();
-        result.currency = transaction.currency.getDisplayName();
+        result.currency = transaction.currency.getCurrencyCode();
         result.createdAt = transaction.getCreatedAt().toString();
         return result;
     }
