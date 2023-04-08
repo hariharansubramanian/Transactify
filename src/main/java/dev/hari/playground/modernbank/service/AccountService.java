@@ -6,6 +6,9 @@ import dev.hari.playground.modernbank.dto.getStatement.GetStatementResult;
 import dev.hari.playground.modernbank.exception.ExceededMaxRequestedTransactionsException;
 import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.model.Account;
+import dev.hari.playground.modernbank.model.TransactionType;
+
+import java.math.BigDecimal;
 
 /**
  * Service behaviors for dealing with {@link Account}
@@ -45,4 +48,13 @@ public interface AccountService {
      * @return {@link GetAccountDetailsResult}
      */
     GetAccountDetailsResult getDetails(long accountId) throws InvalidAccountException;
+
+    /**
+     * Update the balance of an account
+     *
+     * @param account         - account to update balance for
+     * @param transactionType - transaction type
+     * @param amount          - amount to update
+     */
+    void updateBalance(Account account, TransactionType transactionType, BigDecimal amount);
 }

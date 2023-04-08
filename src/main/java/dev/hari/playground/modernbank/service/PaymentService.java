@@ -1,6 +1,9 @@
 package dev.hari.playground.modernbank.service;
 
 import dev.hari.playground.modernbank.dto.processPayment.PaymentRequest;
+import dev.hari.playground.modernbank.exception.ExchangeRatesFetchException;
+import dev.hari.playground.modernbank.exception.InsufficientFundsException;
+import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.exception.PaymentRequestValidationException;
 
 /**
@@ -13,5 +16,5 @@ public interface PaymentService {
      *
      * @param request The payment request to process {@link PaymentRequest}
      */
-    void processPayment(PaymentRequest request) throws PaymentRequestValidationException;
+    void processPayment(PaymentRequest request) throws PaymentRequestValidationException, InvalidAccountException, InsufficientFundsException, ExchangeRatesFetchException;
 }

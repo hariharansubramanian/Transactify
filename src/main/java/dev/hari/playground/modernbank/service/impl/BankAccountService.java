@@ -6,11 +6,14 @@ import dev.hari.playground.modernbank.dto.getStatement.GetStatementResult;
 import dev.hari.playground.modernbank.exception.ExceededMaxRequestedTransactionsException;
 import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.model.Account;
+import dev.hari.playground.modernbank.model.TransactionType;
 import dev.hari.playground.modernbank.repository.AccountRepository;
 import dev.hari.playground.modernbank.service.AccountService;
 import dev.hari.playground.modernbank.service.TransactionService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 /**
  * Bank specific implementations of {@link AccountService} behaviors for {@link Account}
@@ -80,5 +83,20 @@ public class BankAccountService implements AccountService {
 
         // Create the result
         return GetAccountDetailsResult.fromEntity(account);
+    }
+
+    @Override
+    public void updateBalance(Account account, TransactionType transactionType, BigDecimal amount) {
+        // Get the current balance
+        var currentBalance = account.balance;
+
+        // Update the balance based on the transaction type
+        switch (transactionType) {
+            case CREDIT -> account.balance = currentBalance.add(amount);
+            case DEBIT -> account.balance = currentBalance.subtract(amount);
+        }
+
+        // Save the account
+        accountRepository.save(account);
     }
 }

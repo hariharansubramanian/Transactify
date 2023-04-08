@@ -17,4 +17,11 @@ public interface TransactionRepository {
      * @return List of {@link Transaction}
      */
     List<Transaction> findAllByAccountId(long accountId, Pageable pageable);
+
+    /**
+     * Save a transaction
+     *
+     * @param transaction The transaction to save
+     */
+    Transaction save(Transaction transaction);
 }

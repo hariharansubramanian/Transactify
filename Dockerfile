@@ -4,13 +4,8 @@ FROM openjdk:18-jdk
 # Set the working directory to /app
 WORKDIR /app
 
-# Copy the Maven wrapper files to the container
-COPY mvnw .
-COPY .mvn .mvn
-
 # Copy the project files to the container
-COPY pom.xml .
-COPY src src
+COPY . .
 
 # Run Maven to build the project
 RUN ./mvnw clean package -DskipTests

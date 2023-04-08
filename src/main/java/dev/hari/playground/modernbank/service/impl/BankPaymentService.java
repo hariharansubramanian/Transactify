@@ -1,9 +1,14 @@
 package dev.hari.playground.modernbank.service.impl;
 
 import dev.hari.playground.modernbank.dto.processPayment.PaymentRequest;
+import dev.hari.playground.modernbank.exception.ExchangeRatesFetchException;
+import dev.hari.playground.modernbank.exception.InsufficientFundsException;
+import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.exception.PaymentRequestValidationException;
+import dev.hari.playground.modernbank.model.TransactionType;
+import dev.hari.playground.modernbank.service.ConversionService;
 import dev.hari.playground.modernbank.service.PaymentService;
-import org.apache.commons.lang3.NotImplementedException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,12 +16,45 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BankPaymentService implements PaymentService {
+    private final BankAccountService accountService;
+    private final BankTransactionService transactionService;
+    private final ConversionService conversionService;
+
+    public BankPaymentService(BankAccountService accountService, BankTransactionService transactionService, ConversionService conversionService) {
+        this.accountService = accountService;
+        this.transactionService = transactionService;
+        this.conversionService = conversionService;
+    }
+
     @Override
-    public void processPayment(PaymentRequest request) throws PaymentRequestValidationException {
+    @Transactional // make sure account balances and transactions are updated atomically
+    public void processPayment(PaymentRequest request) throws PaymentRequestValidationException, InvalidAccountException, InsufficientFundsException, ExchangeRatesFetchException {
         // Validate the request
         request.Validate();
 
-        // TODO: Implement payment transfer logic
-        throw new NotImplementedException("Not implemented yet");
+        // Get the source account
+        var sourceAccount = accountService.getAccountOrThrow(request.sourceAccountId);
+
+        // Check if the source account has sufficient funds
+        if (!sourceAccount.canAffordAmount(request.amount)) {
+            throw new InsufficientFundsException(String.format("Insufficient funds in account %s", sourceAccount.id));
+        }
+
+        // Get the destination account
+        var destinationAccount = accountService.getAccountOrThrow(request.destinationAccountId);
+
+        // Convert the amount to destination account currency
+        var convertedAmount = conversionService.convert(request.amount, sourceAccount.currency, destinationAccount.currency);
+
+        // Transfer the amount from source account to destination account
+        TransactionType sourceTxType = TransactionType.DEBIT;
+        TransactionType destinationTxType = TransactionType.CREDIT;
+
+        accountService.updateBalance(sourceAccount, sourceTxType, request.amount);
+        accountService.updateBalance(destinationAccount, destinationTxType, convertedAmount);
+
+        // Register transactions in source and destination accounts
+        transactionService.registerTransaction(sourceAccount, sourceTxType, request.amount);
+        transactionService.registerTransaction(destinationAccount, destinationTxType, convertedAmount);
     }
 }

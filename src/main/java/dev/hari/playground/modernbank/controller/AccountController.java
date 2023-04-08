@@ -37,6 +37,7 @@ public class AccountController {
     @ApiResponse(responseCode = "400",
             description = "Invalid Account ID supplied",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorDetail.class)))
+
     public GetAccountBalanceResult getBalance(@Parameter(description = "Account id to get balance for", required = true)
                                               @PathVariable long accountId) throws InvalidAccountException {
 
@@ -55,6 +56,7 @@ public class AccountController {
     @ApiResponse(responseCode = "400",
             description = "Too many transactions requested",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDetail.class)))
+
     public GetStatementResult getStatement(@Parameter(description = "Account id to get statement for", required = true)
                                            @PathVariable long accountId,
                                            @Parameter(description = "The number of transactions to list in the statement. Defaults to the last 20 transactions. Must be greater than 0 and less than 50 ", required = false)
@@ -72,6 +74,7 @@ public class AccountController {
     @ApiResponse(responseCode = "400",
             description = "Invalid Account ID supplied",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDetail.class)))
+
     public GetAccountDetailsResult getAccountDetails(@Parameter(description = "Account id to get details for", required = true)
                                                      @PathVariable long accountId) throws InvalidAccountException {
 
