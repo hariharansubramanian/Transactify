@@ -16,10 +16,10 @@ public class GetAccountBalanceResult {
      * Factory method to create DTO from {@link Account} entity
      */
     public static GetAccountBalanceResult fromEntity(Account account) {
-        return new GetAccountBalanceResult() {{
-            accountId = account.getId();
-            currency = account.getCurrency().getDisplayName();
-            balance = account.getBalance();
-        }};
+        var result = new GetAccountBalanceResult();
+        result.accountId = account.id;
+        result.currency = account.currency.getDisplayName();
+        result.balance = account.balance;
+        return result;
     }
 }

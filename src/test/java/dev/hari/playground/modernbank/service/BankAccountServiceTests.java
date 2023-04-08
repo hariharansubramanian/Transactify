@@ -2,8 +2,7 @@ package dev.hari.playground.modernbank.service;
 
 import dev.hari.playground.modernbank.dto.GetAccountBalanceResult;
 import dev.hari.playground.modernbank.exception.InvalidAccountException;
-import dev.hari.playground.modernbank.model.Account;
-import dev.hari.playground.modernbank.model.AccountBuilder;
+import dev.hari.playground.modernbank.model.builders.AccountBuilder;
 import dev.hari.playground.modernbank.repository.AccountRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +43,7 @@ class BankAccountServiceTests {
         accountRepository.save(account);
 
         // Act
-        GetAccountBalanceResult result = accountService.getAccountBalance(account.getId());
+        GetAccountBalanceResult result = accountService.getAccountBalance(account.id);
 
         // Assert
         assertTrue(account.isBalanceEqualTo(result.balance));

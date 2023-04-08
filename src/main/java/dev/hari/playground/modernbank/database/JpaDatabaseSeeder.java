@@ -1,7 +1,9 @@
 package dev.hari.playground.modernbank.database;
 
 import dev.hari.playground.modernbank.model.Account;
-import dev.hari.playground.modernbank.model.AccountBuilder;
+import dev.hari.playground.modernbank.model.TransactionType;
+import dev.hari.playground.modernbank.model.builders.AccountBuilder;
+import dev.hari.playground.modernbank.model.builders.TransactionBuilder;
 import dev.hari.playground.modernbank.repository.AccountRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,11 @@ public class JpaDatabaseSeeder implements CommandLineRunner {
                 .isActive(true)
                 .withBalance(BigDecimal.valueOf(1000.45))
                 .withCurrency(Currency.getInstance("USD"))
+                .withTransaction(new TransactionBuilder()
+                        .withAmount(BigDecimal.valueOf(100.22))
+                        .withCurrency(Currency.getInstance("USD"))
+                        .withType(TransactionType.CREDIT)
+                        .build())
                 .build();
 
         Account activeIndianAccount = new AccountBuilder()

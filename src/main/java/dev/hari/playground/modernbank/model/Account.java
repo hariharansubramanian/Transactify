@@ -1,58 +1,39 @@
 package dev.hari.playground.modernbank.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Currency;
+import java.util.List;
 
+/**
+ * Entity representing an account
+ * Note: all properties are public for ease of readability and lesser code, this is not a good practice in real world
+ */
 @Entity
 public class Account {
 
-    // Properties
+    /* ------------------- Properties ------------------- */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    public long id;
 
-    private boolean isActive;
+    public boolean isActive;
 
     /**
      * Balance of the account
      * Note: Recommended to use BigDecimal over double for financial calculations. See <a href="https://www.linkedin.com/pulse/why-we-should-use-bigdecimal-instead-double-java-financial-ismail/">this article</a>.
      */
-    private BigDecimal balance;
+    public BigDecimal balance;
 
-    private Currency currency;
+    public Currency currency;
 
-    // Getters & Setters
+    /* ------------------- Relationships ------------------- */
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public List<Transaction> transactions = new ArrayList<>();
 
-    public long getId() {
-        return id;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    // Business Methods
+    /* ------------------- Business methods ------------------- */
 
     /**
      * Check if the balance of the account is equal to the given balance by ignoring the scale of precisions
