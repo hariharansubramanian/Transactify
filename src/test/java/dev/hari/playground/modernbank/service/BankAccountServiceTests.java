@@ -46,6 +46,6 @@ class BankAccountServiceTests {
         GetAccountBalanceResult result = accountService.getAccountBalance(account.id);
 
         // Assert
-        assertTrue(account.isBalanceEqualTo(result.balance));
+        assertTrue(account.isBalanceEquals(result.balance));
     }
 }

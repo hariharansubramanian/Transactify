@@ -1,14 +1,11 @@
 package dev.hari.playground.modernbank.database;
 
 import dev.hari.playground.modernbank.model.Account;
-import dev.hari.playground.modernbank.model.TransactionType;
 import dev.hari.playground.modernbank.model.builders.AccountBuilder;
-import dev.hari.playground.modernbank.model.builders.TransactionBuilder;
 import dev.hari.playground.modernbank.repository.AccountRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.Currency;
 
 @Component
@@ -20,29 +17,25 @@ public class JpaDatabaseSeeder implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
+        // Create accounts with random transactions, keeping the balance positive
         Account activeAmericanAccount = new AccountBuilder()
                 .isActive(true)
-                .withBalance(BigDecimal.valueOf(1000.45))
                 .withCurrency(Currency.getInstance("USD"))
-                .withTransaction(new TransactionBuilder()
-                        .withAmount(BigDecimal.valueOf(100.22))
-                        .withCurrency(Currency.getInstance("USD"))
-                        .withType(TransactionType.CREDIT)
-                        .build())
+                .withRandomTransactions(100, 1, 500)
                 .build();
 
         Account activeIndianAccount = new AccountBuilder()
                 .isActive(true)
-                .withBalance(BigDecimal.valueOf(81824.60))
                 .withCurrency(Currency.getInstance("INR"))
+                .withRandomTransactions(100, 81.84, 40920.25)
                 .build();
 
         Account inactiveNorwegianAccount = new AccountBuilder()
                 .isActive(false)
                 .withCurrency(Currency.getInstance("NOK"))
-                .withBalance(BigDecimal.valueOf(1000000.24))
+                .withRandomTransactions(100, 10.50, 5247.50)
                 .build();
 
         jpaAccountRepository.save(activeAmericanAccount);

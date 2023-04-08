@@ -25,7 +25,7 @@ public class Account {
      * Balance of the account
      * Note: Recommended to use BigDecimal over double for financial calculations. See <a href="https://www.linkedin.com/pulse/why-we-should-use-bigdecimal-instead-double-java-financial-ismail/">this article</a>.
      */
-    public BigDecimal balance;
+    public BigDecimal balance = BigDecimal.ZERO;
 
     public Currency currency;
 
@@ -35,11 +35,20 @@ public class Account {
 
     /* ------------------- Business methods ------------------- */
 
+    // TODO: Create BigDecimal extension methods for BigDecimal specific operations
+
     /**
      * Check if the balance of the account is equal to the given balance by ignoring the scale of precisions
      * Note: 1000.00 and 1000.000 are not equal when using {@link BigDecimal#equals(Object)}, but they are equal when using {@link BigDecimal#compareTo(BigDecimal)}
      */
-    public boolean isBalanceEqualTo(BigDecimal balance) {
+    public boolean isBalanceEquals(BigDecimal balance) {
         return this.balance.compareTo(balance) == 0;
+    }
+
+    /**
+     * Check if the account balance is sufficient to afford the given amount
+     */
+    public boolean canAffordAmount(BigDecimal amount) {
+        return this.balance.compareTo(amount) >= 0;
     }
 }
