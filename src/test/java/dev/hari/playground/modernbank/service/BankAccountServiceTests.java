@@ -15,7 +15,7 @@ import java.util.Currency;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class BankAccountServiceTests {
+class BankAccountServiceTests {
 
     @Autowired
     private AccountService accountService;
@@ -24,7 +24,7 @@ public class BankAccountServiceTests {
     private AccountRepository accountRepository;
 
     @Test
-    public void GetAccountBalance_ShouldThrowInvalidAccountException_WhenInvalidAccount() {
+    void GetAccountBalance_ShouldThrowInvalidAccountException_WhenInvalidAccount() {
         // Arrange
         long invalidAccountId = 999;
 
@@ -33,9 +33,9 @@ public class BankAccountServiceTests {
     }
 
     @Test
-    public void GetAccountBalance_ShouldReturnAccountBalance_WhenValidAccount() throws InvalidAccountException {
+    void GetAccountBalance_ShouldReturnAccountBalance_WhenValidAccount() throws InvalidAccountException {
         // Arrange
-        Account account = new AccountBuilder()
+        var account = new AccountBuilder()
                 .isActive(true)
                 .withBalance(BigDecimal.valueOf(1000))
                 .withCurrency(Currency.getInstance("USD"))

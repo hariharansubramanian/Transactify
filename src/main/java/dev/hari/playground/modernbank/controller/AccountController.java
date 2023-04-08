@@ -1,11 +1,17 @@
 package dev.hari.playground.modernbank.controller;
 
+import dev.hari.playground.modernbank.dto.GetAccountBalanceResult;
+import dev.hari.playground.modernbank.exception.ErrorDetail;
+import dev.hari.playground.modernbank.exception.InvalidAccountException;
+import dev.hari.playground.modernbank.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,13 +20,25 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Account", description = "APIs to get account information")
 public class AccountController {
 
-    @GetMapping("{accountId}/balance")
+    private final AccountService accountService;
+
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
+
+    @GetMapping(value = "{accountId}/balance", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get account balance", description = "Gets account balance of the account id specified in request body", tags = {"Account"})
-    @ApiResponse(responseCode = "200", description = "Returns the specified account's balance", content = @Content(mediaType = "application/json"), useReturnTypeSchema = true)
-    @ApiResponse(responseCode = "400", description = "Invalid Account ID supplied", content = @Content(mediaType = "application/json"))
-    public ResponseEntity<Object> getBalance(@Parameter(description = "Account id to get balance for", required = true)
-                                             @PathVariable long accountId) {
-        throw new NotImplementedException("Not implemented yet");
+    @ApiResponse(responseCode = "200",
+            description = "Returns the specified account's balance",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetAccountBalanceResult.class)))
+    @ApiResponse(responseCode = "400",
+            description = "Invalid Account ID supplied",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorDetail.class)))
+    public GetAccountBalanceResult getBalance(@Parameter(description = "Account id to get balance for", required = true)
+                                              @PathVariable long accountId) throws InvalidAccountException {
+
+        return accountService.getAccountBalance(accountId);
+
     }
 
     @GetMapping("{accountId}/statement")

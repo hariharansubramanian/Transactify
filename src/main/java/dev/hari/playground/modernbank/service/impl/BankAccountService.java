@@ -5,7 +5,6 @@ import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.model.Account;
 import dev.hari.playground.modernbank.repository.AccountRepository;
 import dev.hari.playground.modernbank.service.AccountService;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,7 +21,7 @@ public class BankAccountService implements AccountService {
 
     @Override
     public GetAccountBalanceResult getAccountBalance(long accountId) throws InvalidAccountException {
-        Account account = accountRepository.findAccountById(accountId);
+        var account = accountRepository.findAccountById(accountId);
 
         if (account == null) {
             throw new InvalidAccountException("Account with id ${accountId} does not exist");
