@@ -1,20 +1,12 @@
-# Use JDK 18 as the base image
-FROM openjdk:18-jdk
+FROM maven:3.8.4-openjdk-17 as maven-builder
+COPY src /app/src
+COPY pom.xml /app
 
-# Set the working directory to /app
-WORKDIR /app
+RUN mvn -f /app/pom.xml clean package -DskipTests
+FROM openjdk:17-alpine
 
-# Copy the project files to the container
-COPY . .
+COPY --from=maven-builder app/target/*.jar /app-service/app.jar
+WORKDIR /app-service
 
-# Run Maven to build the project
-RUN ./mvnw clean package -DskipTests
-
-# Copy the generated JAR file to the container
-COPY target/*.jar app.jar
-
-# Expose port 8080 for the container
 EXPOSE 8080
-
-# Set the command to run the JAR file
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
