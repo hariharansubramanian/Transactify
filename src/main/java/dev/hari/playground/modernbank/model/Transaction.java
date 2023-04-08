@@ -27,7 +27,6 @@ public class Transaction {
     public TransactionType type;
 
     // Note: ZonedDateTime is used instead of LocalDateTime because it is more suitable for storing date and time with time zone
-    // FIXME: H2 does not support ZoneDateTime?
     private ZonedDateTime createdAt;
 
     /* ------------------- Relationships ------------------- */

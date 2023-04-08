@@ -31,5 +31,5 @@ public interface TransactionService {
      * @param transactionType - transaction type
      * @param amount          - amount to update
      */
-    public void registerTransaction(Account account, TransactionType transactionType, BigDecimal amount);
+    void registerTransaction(Account account, TransactionType transactionType, BigDecimal amount);
 }

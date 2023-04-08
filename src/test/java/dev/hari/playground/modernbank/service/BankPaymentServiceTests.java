@@ -47,10 +47,8 @@ class BankPaymentServiceTests {
         var destinationAccountId = account.id;
         var sourceAccountId = 999;
 
-        PaymentRequest request = new PaymentRequest();
-        request.sourceAccountId = sourceAccountId;
-        request.destinationAccountId = destinationAccountId;
-        request.amount = BigDecimal.valueOf(100);
+        BigDecimal amountToPay = BigDecimal.valueOf(100);
+        PaymentRequest request = new PaymentRequest(sourceAccountId, destinationAccountId, amountToPay);
 
         // Act & Assert
         assertThrows(InvalidAccountException.class, () -> paymentService.processPayment(request));
@@ -71,10 +69,8 @@ class BankPaymentServiceTests {
         var destinationAccountId = 999;
 
         // Act and Assert
-        PaymentRequest request = new PaymentRequest();
-        request.sourceAccountId = sourceAccountId;
-        request.destinationAccountId = destinationAccountId;
-        request.amount = BigDecimal.valueOf(100);
+        BigDecimal amountToPay = BigDecimal.valueOf(100);
+        PaymentRequest request = new PaymentRequest(sourceAccountId, destinationAccountId, amountToPay);
 
         assertThrows(InvalidAccountException.class, () -> paymentService.processPayment(request));
     }
@@ -94,10 +90,8 @@ class BankPaymentServiceTests {
         var sourceAccountId = -1;
 
         // Act & Assert
-        PaymentRequest request = new PaymentRequest();
-        request.sourceAccountId = sourceAccountId;
-        request.destinationAccountId = destinationAccountId;
-        request.amount = BigDecimal.valueOf(100);
+        BigDecimal amountToPay = BigDecimal.valueOf(100);
+        PaymentRequest request = new PaymentRequest(sourceAccountId, destinationAccountId, amountToPay);
 
         assertThrows(PaymentRequestValidationException.class, () -> paymentService.processPayment(request));
     }
@@ -117,10 +111,8 @@ class BankPaymentServiceTests {
         var destinationAccountId = -1;
 
         // Act & Assert
-        PaymentRequest request = new PaymentRequest();
-        request.sourceAccountId = sourceAccountId;
-        request.destinationAccountId = destinationAccountId;
-        request.amount = BigDecimal.valueOf(100);
+        BigDecimal amountToPay = BigDecimal.valueOf(100);
+        PaymentRequest request = new PaymentRequest(sourceAccountId, destinationAccountId, amountToPay);
 
         assertThrows(PaymentRequestValidationException.class, () -> paymentService.processPayment(request));
     }
@@ -147,11 +139,7 @@ class BankPaymentServiceTests {
         accountRepository.save(destinationAccount);
 
         // Act & Assert
-        PaymentRequest request = new PaymentRequest();
-        request.sourceAccountId = sourceAccount.id;
-        request.destinationAccountId = destinationAccount.id;
-        request.amount = invalidAmount;
-
+        PaymentRequest request = new PaymentRequest(sourceAccount.id, destinationAccount.id, invalidAmount);
         assertThrows(PaymentRequestValidationException.class, () -> paymentService.processPayment(request));
     }
 
@@ -177,10 +165,8 @@ class BankPaymentServiceTests {
         accountRepository.save(destinationAccount);
 
         // Act & Assert
-        PaymentRequest request = new PaymentRequest();
-        request.sourceAccountId = sourceAccount.id;
-        request.destinationAccountId = destinationAccount.id;
-        request.amount = sourceBalance.add(BigDecimal.valueOf(1));
+        BigDecimal amountToPay = sourceBalance.add(BigDecimal.valueOf(1));
+        PaymentRequest request = new PaymentRequest(sourceAccount.id, destinationAccount.id, amountToPay);
 
         assertThrows(InsufficientFundsException.class, () -> paymentService.processPayment(request));
     }
@@ -212,11 +198,7 @@ class BankPaymentServiceTests {
         BigDecimal expectedDestinationBalance = initialDestinationBalance.add(amountToPay);
 
         // Act
-        var request = new PaymentRequest();
-        request.sourceAccountId = sourceAccount.id;
-        request.destinationAccountId = destinationAccount.id;
-        request.amount = amountToPay;
-
+        var request = new PaymentRequest(sourceAccount.id, destinationAccount.id, amountToPay);
         paymentService.processPayment(request);
 
         // Assert
@@ -257,11 +239,7 @@ class BankPaymentServiceTests {
         BigDecimal expectedDestinationBalance = initialDestinationBalance.add(convertedAmount).setScale(2, RoundingMode.HALF_UP);
 
         // Act
-        var request = new PaymentRequest();
-        request.sourceAccountId = sourceAccount.id;
-        request.destinationAccountId = destinationAccount.id;
-        request.amount = amountToPay;
-
+        var request = new PaymentRequest(sourceAccount.id, destinationAccount.id, amountToPay);
         paymentService.processPayment(request);
 
         // Assert

@@ -21,10 +21,16 @@ public class PaymentRequest {
     @DecimalMin(value = "0.01", message = "Amount must be greater than 0")
     public BigDecimal amount;
 
+    public PaymentRequest(long sourceAccountId, long destinationAccountId, BigDecimal amount) {
+        this.sourceAccountId = sourceAccountId;
+        this.destinationAccountId = destinationAccountId;
+        this.amount = amount;
+    }
+
     /**
      * Validates the payment request properties
      *
-     * @throws PaymentRequestValidationException
+     * @throws PaymentRequestValidationException if any of the properties are invalid
      */
     public void Validate() throws PaymentRequestValidationException {
         List<String> errors = new ArrayList<>();

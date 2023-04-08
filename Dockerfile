@@ -9,4 +9,4 @@ COPY --from=maven-builder app/target/*.jar /app-service/app.jar
 WORKDIR /app-service
 
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar","app.jar","-web -webAllowOthers -tcp -tcpAllowOthers -browser"]
