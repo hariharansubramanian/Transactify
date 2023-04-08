@@ -35,38 +35,45 @@ public class BankAccountService implements AccountService {
 
     @Override
     public GetAccountBalanceResult getBalance(long accountId) throws InvalidAccountException {
-        var account = accountRepository.findAccountById(accountId);
+        // Get the account or throw an exception if account does not exist
+        var account = getAccountOrThrow(accountId);
 
-        if (account == null) {
-            throw new InvalidAccountException(String.format("Account with id %s does not exist", accountId));
-        }
-
+        // Create the result
         return GetAccountBalanceResult.fromEntity(account);
     }
 
     @Override
     public GetStatementResult getStatement(long accountId, int transactionCount) throws InvalidAccountException, ExceededMaxRequestedTransactionsException {
+        // Limit the number of transactions that can be requested for a statement
         if (transactionCount > MAX_REQUESTED_TRANSACTIONS_LIMIT) {
             throw new ExceededMaxRequestedTransactionsException(String.format("Requested for %s transactions. Max limit is %s", transactionCount, MAX_REQUESTED_TRANSACTIONS_LIMIT));
         }
 
+        // Get the account or throw an exception if account does not exist
+        var account = getAccountOrThrow(accountId);
+
+        // Get the transactions for the account
+        var accountTransactions = transactionService.getTransactionsForAccount(accountId, transactionCount, Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        // Create the result
+        return GetStatementResult.fromEntity(account, accountTransactions);
+    }
+
+    /**
+     * Get account by id or throw {@link InvalidAccountException} if account does not exist
+     *
+     * @param accountId The account id to get
+     * @return {@link Account} if it exists
+     * @throws InvalidAccountException if account does not exist
+     */
+    @Override
+    public Account getAccountOrThrow(long accountId) throws InvalidAccountException {
         var account = accountRepository.findAccountById(accountId);
 
         if (account == null) {
             throw new InvalidAccountException(String.format("Account with id %s does not exist", accountId));
         }
 
-        var transactions = transactionService.getTransactionsForAccount(accountId, transactionCount, Sort.by(Sort.Direction.DESC, "createdAt"));
-
-        var result = new GetStatementResult();
-        result.accountId = account.id;
-        result.transactions = transactions
-                .stream()
-                .sorted((t1, t2) -> t2.getCreatedAt().compareTo(t1.getCreatedAt()))
-                .limit(transactionCount)
-                .map(TransactionResult::fromEntity)
-                .toList();
-
-        return result;
+        return account;
     }
 }

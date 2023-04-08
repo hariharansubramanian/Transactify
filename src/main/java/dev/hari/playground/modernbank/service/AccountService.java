@@ -27,4 +27,13 @@ public interface AccountService {
      * @return {@link GetStatementResult}
      */
     GetStatementResult getStatement(long accountId, int transactionCount) throws InvalidAccountException, ExceededMaxRequestedTransactionsException;
+
+    /**
+     * Get the account or throw an exception if account is not found
+     *
+     * @param accountId The account id to get
+     * @return {@link Account}
+     */
+
+    Account getAccountOrThrow(long accountId) throws InvalidAccountException;
 }
