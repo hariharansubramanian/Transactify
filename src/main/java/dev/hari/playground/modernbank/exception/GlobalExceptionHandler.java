@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class GlobalExceptionHandler {
 
     /**
-     * Handles {@link InvalidAccountException}, {@link ExceededMaxRequestedTransactionsException} and {@link InsufficientFundsException} exceptions
+     * Handles {@link InvalidAccountException}, {@link ExceededMaxRequestedTransactionsException},  {@link InsufficientFundsException} and {@link PaymentRequestValidationException} exceptions
      * and returns {@link ErrorDetail} with a {@link HttpStatus#BAD_REQUEST} status code
      *
      * @param e The exception
      * @return {@link ErrorDetail} with {@link HttpStatus#BAD_REQUEST}
      */
-    @ExceptionHandler({InvalidAccountException.class, ExceededMaxRequestedTransactionsException.class, InsufficientFundsException.class})
+    @ExceptionHandler({InvalidAccountException.class, ExceededMaxRequestedTransactionsException.class, InsufficientFundsException.class, PaymentRequestValidationException.class})
     @ResponseBody
     public ErrorDetail handleCustomBadRequestExceptions(Exception e) {
         return new ErrorDetail(HttpStatus.BAD_REQUEST.value(), e.getMessage());

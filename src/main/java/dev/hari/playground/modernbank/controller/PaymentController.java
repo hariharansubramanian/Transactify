@@ -1,6 +1,7 @@
 package dev.hari.playground.modernbank.controller;
 
 import dev.hari.playground.modernbank.dto.processPayment.PaymentRequest;
+import dev.hari.playground.modernbank.exception.PaymentRequestValidationException;
 import dev.hari.playground.modernbank.service.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -28,10 +29,11 @@ public class PaymentController {
     @ApiResponse(responseCode = "200", description = "Payment process successful")
     @ApiResponse(responseCode = "400", description = "Invalid account")
     @ApiResponse(responseCode = "400", description = "Insufficient funds")
-    public ResponseEntity<String> processPayment(@RequestBody PaymentRequest request) {
-        // TODO: Add validation for request
+    public ResponseEntity<String> processPayment(@RequestBody PaymentRequest request) throws PaymentRequestValidationException {
+        // Process payment
         paymentService.processPayment(request);
 
+        // return success
         return new ResponseEntity<>("Payment processed successfully", HttpStatus.OK);
     }
 }

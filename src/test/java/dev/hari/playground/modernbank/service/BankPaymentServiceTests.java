@@ -3,8 +3,10 @@ package dev.hari.playground.modernbank.service;
 import dev.hari.playground.modernbank.dto.processPayment.PaymentRequest;
 import dev.hari.playground.modernbank.exception.InsufficientFundsException;
 import dev.hari.playground.modernbank.exception.InvalidAccountException;
+import dev.hari.playground.modernbank.exception.PaymentRequestValidationException;
 import dev.hari.playground.modernbank.model.builders.AccountBuilder;
 import dev.hari.playground.modernbank.repository.AccountRepository;
+import jakarta.validation.constraints.DecimalMin;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,7 +29,7 @@ public class BankPaymentServiceTests {
      * ----------------------- ProcessPayment Tests -----------------------
      */
     @Test
-    void ProcessPayment_ShouldThrowInvalidAccountException_WhenInvalidSourceAccount() {
+    void ProcessPayment_ShouldThrowInvalidAccountException_WhenInvalidSourceAccount() throws PaymentRequestValidationException {
         // Arrange
         // Setup destination account
         var account = new AccountBuilder()
@@ -45,15 +47,12 @@ public class BankPaymentServiceTests {
         request.destinationAccountId = destinationAccountId;
         request.amount = BigDecimal.valueOf(100);
 
-        // Act
-        paymentService.processPayment(request);
-
-        // Assert
+        // Act & Assert
         assertThrows(InvalidAccountException.class, () -> paymentService.processPayment(request));
     }
 
     @Test
-    void ProcessPayment_ShouldThrowInvalidAccountException_WhenInvalidDestinationAccount() {
+    void ProcessPayment_ShouldThrowInvalidAccountException_WhenInvalidDestinationAccount() throws PaymentRequestValidationException {
         // Arrange
         // Setup source account
         var account = new AccountBuilder()
@@ -66,20 +65,93 @@ public class BankPaymentServiceTests {
         var sourceAccountId = account.id;
         var destinationAccountId = 999;
 
+        // Act and Assert
         PaymentRequest request = new PaymentRequest();
         request.sourceAccountId = sourceAccountId;
         request.destinationAccountId = destinationAccountId;
         request.amount = BigDecimal.valueOf(100);
 
-        // Act
-        paymentService.processPayment(request);
-
-        // Assert
         assertThrows(InvalidAccountException.class, () -> paymentService.processPayment(request));
     }
 
     @Test
-    void ProcessPayment_ShouldThrowInsufficientFunds_WhenSourceAccountCannotAffordPayment() {
+    void ProcessPayment_ShouldThrowPaymentRequestValidationException_WhenNegativeSourceAccountId() throws PaymentRequestValidationException {
+        // Arrange
+        // Setup destination account
+        var account = new AccountBuilder()
+                .isActive(true)
+                .withBalance(BigDecimal.valueOf(1000))
+                .withCurrency(Currency.getInstance("USD"))
+                .build();
+        accountRepository.save(account);
+
+        var destinationAccountId = account.id;
+        var sourceAccountId = -1;
+
+        // Act & Assert
+        PaymentRequest request = new PaymentRequest();
+        request.sourceAccountId = sourceAccountId;
+        request.destinationAccountId = destinationAccountId;
+        request.amount = BigDecimal.valueOf(100);
+
+        assertThrows(PaymentRequestValidationException.class, () -> paymentService.processPayment(request));
+    }
+
+    @Test
+    void ProcessPayment_ShouldThrowPaymentRequestValidationException_WhenNegativeDestinationAccountId() throws PaymentRequestValidationException {
+        // Arrange
+        // Setup source account
+        var account = new AccountBuilder()
+                .isActive(true)
+                .withBalance(BigDecimal.valueOf(1000))
+                .withCurrency(Currency.getInstance("USD"))
+                .build();
+        accountRepository.save(account);
+
+        var sourceAccountId = account.id;
+        var destinationAccountId = -1;
+
+        // Act & Assert
+        PaymentRequest request = new PaymentRequest();
+        request.sourceAccountId = sourceAccountId;
+        request.destinationAccountId = destinationAccountId;
+        request.amount = BigDecimal.valueOf(100);
+
+        assertThrows(PaymentRequestValidationException.class, () -> paymentService.processPayment(request));
+    }
+
+    @Test
+    void ProcessPayment_ShouldThrowPaymentRequestValidationException_WhenAmountIsNegativeOrZero() throws PaymentRequestValidationException {
+        // Arrange
+        // Setup source account
+        BigDecimal invalidAmount = BigDecimal.valueOf(0);
+        var sourceAccount = new AccountBuilder()
+                .isActive(true)
+                .withBalance(BigDecimal.valueOf(1000))
+                .withCurrency(Currency.getInstance("USD"))
+                .build();
+
+        // Setup destination account
+        var destinationAccount = new AccountBuilder()
+                .isActive(true)
+                .withBalance(BigDecimal.valueOf(1000))
+                .withCurrency(Currency.getInstance("USD"))
+                .build();
+
+        accountRepository.save(sourceAccount);
+        accountRepository.save(destinationAccount);
+
+        // Act & Assert
+        PaymentRequest request = new PaymentRequest();
+        request.sourceAccountId = sourceAccount.id;
+        request.destinationAccountId = destinationAccount.id;
+        request.amount = invalidAmount;
+
+        assertThrows(PaymentRequestValidationException.class, () -> paymentService.processPayment(request));
+    }
+
+    @Test
+    void ProcessPayment_ShouldThrowInsufficientFunds_WhenSourceAccountCannotAffordPayment() throws PaymentRequestValidationException {
         // Arrange
         // Setup source account
         BigDecimal sourceBalance = BigDecimal.valueOf(1000);
@@ -99,15 +171,12 @@ public class BankPaymentServiceTests {
         accountRepository.save(sourceAccount);
         accountRepository.save(destinationAccount);
 
-        // Act
+        // Act & Assert
         PaymentRequest request = new PaymentRequest();
         request.sourceAccountId = sourceAccount.id;
         request.destinationAccountId = destinationAccount.id;
         request.amount = sourceBalance.add(BigDecimal.valueOf(1));
 
-        paymentService.processPayment(request);
-
-        // Assert
         assertThrows(InsufficientFundsException.class, () -> paymentService.processPayment(request));
     }
 
