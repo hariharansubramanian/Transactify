@@ -1,6 +1,6 @@
 package dev.hari.playground.modernbank.service;
 
-import dev.hari.playground.modernbank.dto.transferMoney.PaymentTransferRequest;
+import dev.hari.playground.modernbank.dto.processPayment.PaymentRequest;
 import dev.hari.playground.modernbank.exception.InsufficientFundsException;
 import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.model.builders.AccountBuilder;
@@ -40,7 +40,7 @@ public class BankPaymentServiceTests {
         var destinationAccountId = account.id;
         var sourceAccountId = 999;
 
-        PaymentTransferRequest request = new PaymentTransferRequest();
+        PaymentRequest request = new PaymentRequest();
         request.sourceAccountId = sourceAccountId;
         request.destinationAccountId = destinationAccountId;
         request.amount = BigDecimal.valueOf(100);
@@ -66,7 +66,7 @@ public class BankPaymentServiceTests {
         var sourceAccountId = account.id;
         var destinationAccountId = 999;
 
-        PaymentTransferRequest request = new PaymentTransferRequest();
+        PaymentRequest request = new PaymentRequest();
         request.sourceAccountId = sourceAccountId;
         request.destinationAccountId = destinationAccountId;
         request.amount = BigDecimal.valueOf(100);
@@ -100,7 +100,7 @@ public class BankPaymentServiceTests {
         accountRepository.save(destinationAccount);
 
         // Act
-        PaymentTransferRequest request = new PaymentTransferRequest();
+        PaymentRequest request = new PaymentRequest();
         request.sourceAccountId = sourceAccount.id;
         request.destinationAccountId = destinationAccount.id;
         request.amount = sourceBalance.add(BigDecimal.valueOf(1));

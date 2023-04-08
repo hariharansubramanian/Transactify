@@ -58,7 +58,8 @@ public class AccountController {
     public GetStatementResult getStatement(@Parameter(description = "Account id to get statement for", required = true)
                                            @PathVariable long accountId,
                                            @Parameter(description = "The number of transactions to list in the statement. Defaults to the last 20 transactions. Must be greater than 0 and less than 50 ", required = false)
-                                           @RequestParam(defaultValue = "20") @Max(value = BankAccountService.MAX_REQUESTED_TRANSACTIONS_LIMIT) int transactionCount) throws ExceededMaxRequestedTransactionsException, InvalidAccountException {
+                                           @Max(value = BankAccountService.MAX_REQUESTED_TRANSACTIONS_LIMIT)
+                                           @RequestParam(defaultValue = "20") int transactionCount) throws ExceededMaxRequestedTransactionsException, InvalidAccountException {
 
         return accountService.getStatement(accountId, transactionCount);
     }

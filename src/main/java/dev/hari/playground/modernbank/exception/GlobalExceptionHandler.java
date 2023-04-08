@@ -12,28 +12,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class GlobalExceptionHandler {
 
     /**
-     * Handles {@link InvalidAccountException} and returns {@link ErrorDetail} with a {@link HttpStatus#BAD_REQUEST}
+     * Handles {@link InvalidAccountException}, {@link ExceededMaxRequestedTransactionsException} and {@link InsufficientFundsException} exceptions
+     * and returns {@link ErrorDetail} with a {@link HttpStatus#BAD_REQUEST} status code
      *
      * @param e The exception
      * @return {@link ErrorDetail} with {@link HttpStatus#BAD_REQUEST}
      */
-    @ExceptionHandler(InvalidAccountException.class)
+    @ExceptionHandler({InvalidAccountException.class, ExceededMaxRequestedTransactionsException.class, InsufficientFundsException.class})
     @ResponseBody
-    public ErrorDetail handleInvalidAccountException(InvalidAccountException e) {
-        return new ErrorDetail(HttpStatus.BAD_REQUEST.value(), e.getMessage());
-    }
-
-    // TODO: Does the same as handleInvalidAccountException, should we have a common ExceptionHandler for both? or extract body into a common method and invoke it from both?
-
-    /**
-     * Handles {@link ExceededMaxRequestedTransactionsException} and returns {@link ErrorDetail} with a {@link HttpStatus#BAD_REQUEST}
-     *
-     * @param e The exception
-     * @return {@link ErrorDetail} with {@link HttpStatus#BAD_REQUEST}
-     */
-    @ExceptionHandler(ExceededMaxRequestedTransactionsException.class)
-    @ResponseBody
-    public ErrorDetail handleExceededMaxRequestedTransactionsException(ExceededMaxRequestedTransactionsException e) {
+    public ErrorDetail handleCustomBadRequestExceptions(Exception e) {
         return new ErrorDetail(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
 
