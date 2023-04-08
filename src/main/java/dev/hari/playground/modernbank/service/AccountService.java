@@ -1,6 +1,7 @@
 package dev.hari.playground.modernbank.service;
 
-import dev.hari.playground.modernbank.dto.GetAccountBalanceResult;
+import dev.hari.playground.modernbank.dto.GetBalance.GetAccountBalanceResult;
+import dev.hari.playground.modernbank.dto.GetStatement.GetStatementResult;
 import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.model.Account;
 
@@ -15,6 +16,7 @@ public interface AccountService {
      * @param accountId The account id to get balance for
      * @return {@link GetAccountBalanceResult}
      */
-    GetAccountBalanceResult getAccountBalance(long accountId) throws InvalidAccountException;
+    GetAccountBalanceResult getBalance(long accountId) throws InvalidAccountException;
 
+    GetStatementResult getStatement(long accountId, int transactionCount);
 }
