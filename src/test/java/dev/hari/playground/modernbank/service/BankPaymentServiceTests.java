@@ -1,10 +1,7 @@
 package dev.hari.playground.modernbank.service;
 
 import dev.hari.playground.modernbank.dto.processPayment.PaymentRequest;
-import dev.hari.playground.modernbank.exception.ExchangeRatesFetchException;
-import dev.hari.playground.modernbank.exception.InsufficientFundsException;
-import dev.hari.playground.modernbank.exception.InvalidAccountException;
-import dev.hari.playground.modernbank.exception.PaymentRequestValidationException;
+import dev.hari.playground.modernbank.exception.*;
 import dev.hari.playground.modernbank.model.builders.AccountBuilder;
 import dev.hari.playground.modernbank.repository.AccountRepository;
 import org.junit.jupiter.api.Test;
@@ -169,6 +166,62 @@ class BankPaymentServiceTests {
         PaymentRequest request = new PaymentRequest(sourceAccount.id, destinationAccount.id, amountToPay);
 
         assertThrows(InsufficientFundsException.class, () -> paymentService.processPayment(request));
+    }
+
+    @Test
+    void ProcessPayment_ShouldThrowInvalidAccountException_WhenSourceAccountIsDeactivated() {
+        // Arrange
+        // Setup source account
+        BigDecimal sourceBalance = BigDecimal.valueOf(1000);
+        var inactiveSrcAccount = new AccountBuilder()
+                .isActive(false)
+                .withBalance(sourceBalance)
+                .withCurrency(Currency.getInstance("USD"))
+                .build();
+
+        // Setup destination account
+        var destinationAccount = new AccountBuilder()
+                .isActive(true)
+                .withBalance(BigDecimal.valueOf(1000))
+                .withCurrency(Currency.getInstance("USD"))
+                .build();
+
+        accountRepository.save(inactiveSrcAccount);
+        accountRepository.save(destinationAccount);
+
+        // Act & Assert
+        BigDecimal amountToPay = BigDecimal.valueOf(100);
+        PaymentRequest request = new PaymentRequest(inactiveSrcAccount.id, destinationAccount.id, amountToPay);
+
+        assertThrows(InvalidAccountException.class, () -> paymentService.processPayment(request));
+    }
+
+    @Test
+    void ProcessPayment_ShouldThrowInvalidAccountException_WhenDestinationAccountIsDeactivated() {
+        // Arrange
+        // Setup source account
+        BigDecimal sourceBalance = BigDecimal.valueOf(1000);
+        var sourceAccount = new AccountBuilder()
+                .isActive(true)
+                .withBalance(sourceBalance)
+                .withCurrency(Currency.getInstance("USD"))
+                .build();
+
+        // Setup destination account
+        var inactiveDestinationAccount = new AccountBuilder()
+                .isActive(false)
+                .withBalance(BigDecimal.valueOf(1000))
+                .withCurrency(Currency.getInstance("USD"))
+                .build();
+
+        accountRepository.save(sourceAccount);
+        accountRepository.save(inactiveDestinationAccount);
+
+        // Act & Assert
+        BigDecimal amountToPay = BigDecimal.valueOf(100);
+        PaymentRequest request = new PaymentRequest(sourceAccount.id, inactiveDestinationAccount.id, amountToPay);
+
+        assertThrows(InvalidAccountException.class, () -> paymentService.processPayment(request));
     }
 
     @Test

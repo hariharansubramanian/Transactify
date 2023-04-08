@@ -25,12 +25,12 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Handles {@link InsufficientFundsException} and {@link PaymentNotAllowedException} exceptions
+     * Handles {@link InsufficientFundsException} exception
      *
      * @param e The exception
      * @return {@link ErrorDetail} with {@link HttpStatus#METHOD_NOT_ALLOWED} status code
      */
-    @ExceptionHandler({InsufficientFundsException.class, PaymentNotAllowedException.class})
+    @ExceptionHandler({InsufficientFundsException.class})
     @ResponseBody
     public ErrorDetail handleCustomPaymentExceptions(Exception e) {
         return new ErrorDetail(HttpStatus.METHOD_NOT_ALLOWED.value(), e.getMessage());

@@ -33,13 +33,17 @@ public interface AccountService {
     GetStatementResult getStatement(long accountId, int transactionCount) throws InvalidAccountException, ExceededMaxRequestedTransactionsException;
 
     /**
-     * Get the account or throw an exception if account is not found
+     * Get the account by account id
+     * throws {@link InvalidAccountException} when account is not found.
+     * throws {@link InvalidAccountException} when mustBeActive is true but account is not active
      *
-     * @param accountId The account id to get
+     * @param accountId    The account id to get
+     * @param mustBeActive - if true, account must be active
      * @return {@link Account}
      */
 
-    Account getAccountOrThrow(long accountId) throws InvalidAccountException;
+    Account getAccountOrThrow(long accountId, boolean mustBeActive) throws InvalidAccountException;
+
 
     /**
      * Get the account details

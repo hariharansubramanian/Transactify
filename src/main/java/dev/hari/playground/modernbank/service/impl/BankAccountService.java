@@ -39,7 +39,7 @@ public class BankAccountService implements AccountService {
     @Override
     public GetAccountBalanceResult getBalance(long accountId) throws InvalidAccountException {
         // Get the account or throw an exception if account does not exist
-        var account = getAccountOrThrow(accountId);
+        var account = getAccountOrThrow(accountId, false);
 
         // Create the result
         return GetAccountBalanceResult.fromEntity(account);
@@ -53,7 +53,7 @@ public class BankAccountService implements AccountService {
         }
 
         // Get the account or throw an exception if account does not exist
-        var account = getAccountOrThrow(accountId);
+        var account = getAccountOrThrow(accountId, false);
 
         // Get the transactions for the account
         var accountTransactions = transactionService.getTransactionsForAccount(accountId, transactionCount, Sort.by(Sort.Direction.DESC, "createdAt"));
@@ -63,13 +63,13 @@ public class BankAccountService implements AccountService {
     }
 
     @Override
-    public Account getAccountOrThrow(long accountId) throws InvalidAccountException {
+    public Account getAccountOrThrow(long accountId, boolean mustBeActive) throws InvalidAccountException {
         // Get the account
         var account = accountRepository.findAccountById(accountId);
 
-        // Throw an exception if account does not exist
-        if (account == null) {
-            throw new InvalidAccountException(String.format("Account with id %s does not exist", accountId));
+        // Throw an exception if account does not exist or is not active
+        if ((account == null) || (mustBeActive && !account.isActive)) {
+            throw new InvalidAccountException(String.format("Account with id %s is invalid", accountId));
         }
 
         return account;
@@ -79,7 +79,7 @@ public class BankAccountService implements AccountService {
     public GetAccountDetailsResult getDetails(long accountId) throws InvalidAccountException {
 
         // Get the account or throw an exception if account does not exist
-        var account = getAccountOrThrow(accountId);
+        var account = getAccountOrThrow(accountId, false);
 
         // Create the result
         return GetAccountDetailsResult.fromEntity(account);

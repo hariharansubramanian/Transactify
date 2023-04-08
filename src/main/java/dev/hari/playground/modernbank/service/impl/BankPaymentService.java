@@ -1,10 +1,7 @@
 package dev.hari.playground.modernbank.service.impl;
 
 import dev.hari.playground.modernbank.dto.processPayment.PaymentRequest;
-import dev.hari.playground.modernbank.exception.ExchangeRatesFetchException;
-import dev.hari.playground.modernbank.exception.InsufficientFundsException;
-import dev.hari.playground.modernbank.exception.InvalidAccountException;
-import dev.hari.playground.modernbank.exception.PaymentRequestValidationException;
+import dev.hari.playground.modernbank.exception.*;
 import dev.hari.playground.modernbank.model.TransactionType;
 import dev.hari.playground.modernbank.service.ConversionService;
 import dev.hari.playground.modernbank.service.PaymentService;
@@ -33,7 +30,7 @@ public class BankPaymentService implements PaymentService {
         request.Validate();
 
         // Get the source account
-        var sourceAccount = accountService.getAccountOrThrow(request.sourceAccountId);
+        var sourceAccount = accountService.getAccountOrThrow(request.sourceAccountId,true);
 
         // Check if the source account has sufficient funds
         if (!sourceAccount.canAffordAmount(request.amount)) {
@@ -41,7 +38,7 @@ public class BankPaymentService implements PaymentService {
         }
 
         // Get the destination account
-        var destinationAccount = accountService.getAccountOrThrow(request.destinationAccountId);
+        var destinationAccount = accountService.getAccountOrThrow(request.destinationAccountId,true);
 
         // Convert the amount to destination account currency
         var convertedAmount = conversionService.convert(request.amount, sourceAccount.currency, destinationAccount.currency);
