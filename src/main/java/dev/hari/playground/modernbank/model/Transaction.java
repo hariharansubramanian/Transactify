@@ -3,6 +3,7 @@ package dev.hari.playground.modernbank.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.ZonedDateTime;
 import java.util.Currency;
 
@@ -40,7 +41,7 @@ public class Transaction {
     }
 
     public void setAmount(BigDecimal amount) {
-        this.amount = amount.setScale(2, BigDecimal.ROUND_HALF_UP); // Round to 2 decimal places
+        this.amount = amount.setScale(2, RoundingMode.HALF_UP); // Round to 2 decimal places
     }
 
     public ZonedDateTime getCreatedAt() {

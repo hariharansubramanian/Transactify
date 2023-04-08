@@ -15,7 +15,7 @@ import java.util.stream.IntStream;
  */
 public class AccountBuilder {
 
-    private Account account;
+    private final Account account;
 
     public AccountBuilder() {
         this.account = new Account();

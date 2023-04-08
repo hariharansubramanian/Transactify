@@ -1,8 +1,8 @@
 package dev.hari.playground.modernbank.service.impl;
 
-import dev.hari.playground.modernbank.dto.GetBalance.GetAccountBalanceResult;
-import dev.hari.playground.modernbank.dto.GetStatement.GetStatementResult;
-import dev.hari.playground.modernbank.dto.GetStatement.TransactionResult;
+import dev.hari.playground.modernbank.dto.getBalance.GetAccountBalanceResult;
+import dev.hari.playground.modernbank.dto.getStatement.GetStatementResult;
+import dev.hari.playground.modernbank.dto.getStatement.TransactionResult;
 import dev.hari.playground.modernbank.exception.ExceededMaxRequestedTransactionsException;
 import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.model.Account;
@@ -11,8 +11,6 @@ import dev.hari.playground.modernbank.service.AccountService;
 import dev.hari.playground.modernbank.service.TransactionService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.stream.Collectors;
 
 /**
  * Bank specific implementations of {@link AccountService} behaviors for {@link Account}
@@ -67,7 +65,7 @@ public class BankAccountService implements AccountService {
                 .sorted((t1, t2) -> t2.getCreatedAt().compareTo(t1.getCreatedAt()))
                 .limit(transactionCount)
                 .map(TransactionResult::fromEntity)
-                .collect(Collectors.toList());
+                .toList();
 
         return result;
     }

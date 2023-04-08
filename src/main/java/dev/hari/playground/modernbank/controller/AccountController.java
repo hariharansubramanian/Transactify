@@ -1,7 +1,7 @@
 package dev.hari.playground.modernbank.controller;
 
-import dev.hari.playground.modernbank.dto.GetBalance.GetAccountBalanceResult;
-import dev.hari.playground.modernbank.dto.GetStatement.GetStatementResult;
+import dev.hari.playground.modernbank.dto.getBalance.GetAccountBalanceResult;
+import dev.hari.playground.modernbank.dto.getStatement.GetStatementResult;
 import dev.hari.playground.modernbank.exception.ErrorDetail;
 import dev.hari.playground.modernbank.exception.ExceededMaxRequestedTransactionsException;
 import dev.hari.playground.modernbank.exception.InvalidAccountException;
@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Max;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 

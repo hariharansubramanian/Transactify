@@ -14,7 +14,7 @@ import java.util.Currency;
  */
 public class TransactionBuilder {
 
-    private Transaction transaction;
+    private final Transaction transaction;
 
     public TransactionBuilder() {
         this.transaction = new Transaction();

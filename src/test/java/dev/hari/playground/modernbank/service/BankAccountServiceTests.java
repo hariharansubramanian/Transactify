@@ -1,7 +1,7 @@
 package dev.hari.playground.modernbank.service;
 
-import dev.hari.playground.modernbank.dto.GetBalance.GetAccountBalanceResult;
-import dev.hari.playground.modernbank.dto.GetStatement.TransactionResult;
+import dev.hari.playground.modernbank.dto.getBalance.GetAccountBalanceResult;
+import dev.hari.playground.modernbank.dto.getStatement.TransactionResult;
 import dev.hari.playground.modernbank.exception.ExceededMaxRequestedTransactionsException;
 import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.model.builders.AccountBuilder;
@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -128,7 +127,7 @@ class BankAccountServiceTests {
                 .sorted((t1, t2) -> t2.getCreatedAt().compareTo(t1.getCreatedAt()))
                 .limit(transactionCount)
                 .map(TransactionResult::fromEntity)
-                .collect(Collectors.toList());
+                .toList();
 
         // Act
         var result = accountService.getStatement(account.id, transactionCount);

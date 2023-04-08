@@ -21,5 +21,5 @@ public interface AccountRepository {
      * @param account The account to save
      * @return {@link Account}
      */
-    Account save(Account account);
+    void save(Account account);
 }

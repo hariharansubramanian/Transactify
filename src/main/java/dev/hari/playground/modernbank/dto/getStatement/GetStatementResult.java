@@ -1,4 +1,4 @@
-package dev.hari.playground.modernbank.dto.GetStatement;
+package dev.hari.playground.modernbank.dto.getStatement;
 
 import java.util.List;
 

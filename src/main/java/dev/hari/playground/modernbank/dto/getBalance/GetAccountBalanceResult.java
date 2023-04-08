@@ -1,4 +1,4 @@
-package dev.hari.playground.modernbank.dto.GetBalance;
+package dev.hari.playground.modernbank.dto.getBalance;
 
 import dev.hari.playground.modernbank.model.Account;
 
