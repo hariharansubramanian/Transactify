@@ -23,6 +23,20 @@ public class GlobalExceptionHandler {
         return new ErrorDetail(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
 
+    // TODO: Does the same as handleInvalidAccountException, should we have a common ExceptionHandler for both? or extract body into a common method and invoke it from both?
+
+    /**
+     * Handles {@link ExceededMaxRequestedTransactionsException} and returns {@link ErrorDetail} with a {@link HttpStatus#BAD_REQUEST}
+     *
+     * @param e The exception
+     * @return {@link ErrorDetail} with {@link HttpStatus#BAD_REQUEST}
+     */
+    @ExceptionHandler(ExceededMaxRequestedTransactionsException.class)
+    @ResponseBody
+    public ErrorDetail handleExceededMaxRequestedTransactionsException(ExceededMaxRequestedTransactionsException e) {
+        return new ErrorDetail(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+    }
+
     /**
      * Handles all uncaught exceptions and returns {@link ErrorDetail} with a {@link HttpStatus#NOT_IMPLEMENTED}
      *

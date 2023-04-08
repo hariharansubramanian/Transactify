@@ -1,10 +1,12 @@
 package dev.hari.playground.modernbank.service.impl;
 
-import dev.hari.playground.modernbank.dto.GetAccountBalanceResult;
+import dev.hari.playground.modernbank.dto.GetBalance.GetAccountBalanceResult;
+import dev.hari.playground.modernbank.dto.GetStatement.GetStatementResult;
 import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.model.Account;
 import dev.hari.playground.modernbank.repository.AccountRepository;
 import dev.hari.playground.modernbank.service.AccountService;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,7 +22,7 @@ public class BankAccountService implements AccountService {
     }
 
     @Override
-    public GetAccountBalanceResult getAccountBalance(long accountId) throws InvalidAccountException {
+    public GetAccountBalanceResult getBalance(long accountId) throws InvalidAccountException {
         var account = accountRepository.findAccountById(accountId);
 
         if (account == null) {
@@ -28,5 +30,10 @@ public class BankAccountService implements AccountService {
         }
 
         return GetAccountBalanceResult.fromEntity(account);
+    }
+
+    @Override
+    public GetStatementResult getStatement(long accountId, int transactionCount) {
+        throw new NotImplementedException("Not implemented yet");
     }
 }

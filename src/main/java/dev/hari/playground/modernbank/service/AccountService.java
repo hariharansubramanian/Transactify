@@ -18,5 +18,12 @@ public interface AccountService {
      */
     GetAccountBalanceResult getBalance(long accountId) throws InvalidAccountException;
 
+    /**
+     * Get the statement of an account for the last N transactions (N = transactionCount)
+     *
+     * @param accountId        The account id to get statement for
+     * @param transactionCount The number of transactions to get statement for
+     * @return {@link GetStatementResult}
+     */
     GetStatementResult getStatement(long accountId, int transactionCount);
 }
