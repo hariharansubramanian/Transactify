@@ -5,6 +5,7 @@ import dev.hari.playground.modernbank.model.Transaction;
 import dev.hari.playground.modernbank.model.TransactionType;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Currency;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
@@ -44,6 +45,7 @@ public class AccountBuilder {
      * Generates count number of random transactions between min and max amount and updates the account balance
      */
     private void generateRandomTransactions(int count, double minAmount, double maxAmount) {
+        var createdAt = ZonedDateTime.now();
         // Generate count number of random transactions making sure the balance is positive
         IntStream.range(0, count).forEach(i -> {
             // Generate random amount and transaction type
@@ -55,11 +57,12 @@ public class AccountBuilder {
                     .withAmount(amount)
                     .withCurrency(account.currency)
                     .withType(type)
-                    .withAccount(account)
+                    .withAccount(account) // FIXME: the account should ideally be inferred since its a foreign key, but without this, the transaction gets a null account and fails to save
+                    .withCreatedAt(createdAt.plus(i, java.time.temporal.ChronoUnit.SECONDS)) // Add i seconds to createdAt to make sure the transactions are not created at the same time
                     .build();
 
             // Update account balance depending on transaction type
-            account.balance = type == TransactionType.DEBIT ? account.balance.subtract(transaction.amount) : account.balance.add(transaction.amount);
+            account.balance = type == TransactionType.DEBIT ? account.balance.subtract(transaction.getAmount()) : account.balance.add(transaction.getAmount());
             account.transactions.add(transaction);
         });
     }

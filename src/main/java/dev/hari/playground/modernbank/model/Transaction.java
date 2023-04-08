@@ -18,7 +18,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
 
-    public BigDecimal amount;
+    private BigDecimal amount;
 
     public Currency currency;
 
@@ -27,10 +27,27 @@ public class Transaction {
 
     // Note: ZonedDateTime is used instead of LocalDateTime because it is more suitable for storing date and time with time zone
     // FIXME: H2 does not support ZoneDateTime?
-    public ZonedDateTime createdAt;
+    private ZonedDateTime createdAt;
 
     /* ------------------- Relationships ------------------- */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Account.class)
+    @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
     public Account account;
+
+    /* ------------------- Getters & setters ------------------- */
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount.setScale(2, BigDecimal.ROUND_HALF_UP); // Round to 2 decimal places
+    }
+
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt.truncatedTo(java.time.temporal.ChronoUnit.MICROS); // Truncate to microseconds (H2 does not support nanoseconds)
+    }
 }

@@ -18,11 +18,11 @@ public class TransactionBuilder {
 
     public TransactionBuilder() {
         this.transaction = new Transaction();
-        this.transaction.createdAt = ZonedDateTime.now(ZoneOffset.UTC);
+        this.transaction.setCreatedAt(ZonedDateTime.now(ZoneOffset.UTC));
     }
 
     public TransactionBuilder withAmount(BigDecimal amount) {
-        this.transaction.amount = amount;
+        this.transaction.setAmount(amount);
         return this;
     }
 
@@ -37,7 +37,7 @@ public class TransactionBuilder {
     }
 
     public TransactionBuilder withCreatedAt(ZonedDateTime createdAt) {
-        this.transaction.createdAt = createdAt;
+        this.transaction.setCreatedAt(createdAt);
         return this;
     }
 

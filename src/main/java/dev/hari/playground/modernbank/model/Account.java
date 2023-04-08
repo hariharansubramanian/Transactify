@@ -30,7 +30,7 @@ public class Account {
     public Currency currency;
 
     /* ------------------- Relationships ------------------- */
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, targetEntity = Transaction.class, cascade = CascadeType.ALL)
     public List<Transaction> transactions = new ArrayList<>();
 
     /* ------------------- Business methods ------------------- */

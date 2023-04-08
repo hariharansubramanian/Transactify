@@ -6,6 +6,7 @@ import dev.hari.playground.modernbank.exception.ExceededMaxRequestedTransactions
 import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.model.builders.AccountBuilder;
 import dev.hari.playground.modernbank.repository.AccountRepository;
+import dev.hari.playground.modernbank.service.impl.BankAccountService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -71,9 +72,9 @@ class BankAccountServiceTests {
     }
 
     @Test
-    void GetStatement_ShouldThrowExceededMaxRequestedTransactionsException_WhenTransactionsRequestedGreaterThan50() {
+    void GetStatement_ShouldThrowExceededMaxRequestedTransactionsException_WhenTransactionsRequestedGreaterThanMaxAllowedLimit() {
         // Arrange
-        int transactionCount = 51;
+        int transactionCount = BankAccountService.MAX_REQUESTED_TRANSACTIONS_LIMIT + 1;
         var account = new AccountBuilder()
                 .isActive(true)
                 .withBalance(BigDecimal.valueOf(1000))
@@ -88,7 +89,7 @@ class BankAccountServiceTests {
     }
 
     @Test
-    void GetStatement_ShouldReturnNTransactions_WhenNTransactionsRequested() {
+    void GetStatement_ShouldReturnNTransactions_WhenNTransactionsRequested() throws ExceededMaxRequestedTransactionsException, InvalidAccountException {
         int transactionCount = 10;
 
         // Arrange
@@ -109,7 +110,7 @@ class BankAccountServiceTests {
     }
 
     @Test
-    void GetStatement_ShouldReturnTransactions_InDescendingOrderOfDate() {
+    void GetStatement_ShouldReturnTransactions_InDescendingOrderOfDate() throws ExceededMaxRequestedTransactionsException, InvalidAccountException {
         int transactionCount = 20;
 
         // Arrange
@@ -124,9 +125,9 @@ class BankAccountServiceTests {
 
         List<TransactionResult> expectedTransactions = account.transactions
                 .stream()
-                .sorted((t1, t2) -> t2.createdAt.compareTo(t1.createdAt))
+                .sorted((t1, t2) -> t2.getCreatedAt().compareTo(t1.getCreatedAt()))
                 .limit(transactionCount)
-                .map(t -> TransactionResult.fromEntity(t))
+                .map(TransactionResult::fromEntity)
                 .collect(Collectors.toList());
 
         // Act

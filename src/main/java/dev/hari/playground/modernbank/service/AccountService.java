@@ -2,6 +2,7 @@ package dev.hari.playground.modernbank.service;
 
 import dev.hari.playground.modernbank.dto.GetBalance.GetAccountBalanceResult;
 import dev.hari.playground.modernbank.dto.GetStatement.GetStatementResult;
+import dev.hari.playground.modernbank.exception.ExceededMaxRequestedTransactionsException;
 import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.model.Account;
 
@@ -25,5 +26,5 @@ public interface AccountService {
      * @param transactionCount The number of transactions to get statement for
      * @return {@link GetStatementResult}
      */
-    GetStatementResult getStatement(long accountId, int transactionCount);
+    GetStatementResult getStatement(long accountId, int transactionCount) throws InvalidAccountException, ExceededMaxRequestedTransactionsException;
 }
