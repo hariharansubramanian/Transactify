@@ -1,6 +1,7 @@
 package dev.hari.playground.modernbank.controller;
 
 import dev.hari.playground.modernbank.dto.getBalance.GetAccountBalanceResult;
+import dev.hari.playground.modernbank.dto.getDetails.GetAccountDetailsResult;
 import dev.hari.playground.modernbank.dto.getStatement.GetStatementResult;
 import dev.hari.playground.modernbank.exception.ErrorDetail;
 import dev.hari.playground.modernbank.exception.ExceededMaxRequestedTransactionsException;
@@ -60,5 +61,19 @@ public class AccountController {
                                            @RequestParam(defaultValue = "20") @Max(value = BankAccountService.MAX_REQUESTED_TRANSACTIONS_LIMIT) int transactionCount) throws ExceededMaxRequestedTransactionsException, InvalidAccountException {
 
         return accountService.getStatement(accountId, transactionCount);
+    }
+
+    @GetMapping(value = "{accountId}/details", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get account details", description = "Gets the details of the account specified", tags = {"Account"})
+    @ApiResponse(responseCode = "200",
+            description = "Returns the details of the account specified",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = GetAccountDetailsResult.class)), useReturnTypeSchema = true)
+    @ApiResponse(responseCode = "400",
+            description = "Invalid Account ID supplied",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDetail.class)))
+    public GetAccountDetailsResult getAccountDetails(@Parameter(description = "Account id to get details for", required = true)
+                                                     @PathVariable long accountId) throws InvalidAccountException {
+
+        return accountService.getDetails(accountId);
     }
 }

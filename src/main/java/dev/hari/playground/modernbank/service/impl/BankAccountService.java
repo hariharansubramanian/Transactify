@@ -1,8 +1,8 @@
 package dev.hari.playground.modernbank.service.impl;
 
 import dev.hari.playground.modernbank.dto.getBalance.GetAccountBalanceResult;
+import dev.hari.playground.modernbank.dto.getDetails.GetAccountDetailsResult;
 import dev.hari.playground.modernbank.dto.getStatement.GetStatementResult;
-import dev.hari.playground.modernbank.dto.getStatement.TransactionResult;
 import dev.hari.playground.modernbank.exception.ExceededMaxRequestedTransactionsException;
 import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.model.Account;
@@ -59,21 +59,26 @@ public class BankAccountService implements AccountService {
         return GetStatementResult.fromEntity(account, accountTransactions);
     }
 
-    /**
-     * Get account by id or throw {@link InvalidAccountException} if account does not exist
-     *
-     * @param accountId The account id to get
-     * @return {@link Account} if it exists
-     * @throws InvalidAccountException if account does not exist
-     */
     @Override
     public Account getAccountOrThrow(long accountId) throws InvalidAccountException {
+        // Get the account
         var account = accountRepository.findAccountById(accountId);
 
+        // Throw an exception if account does not exist
         if (account == null) {
             throw new InvalidAccountException(String.format("Account with id %s does not exist", accountId));
         }
 
         return account;
+    }
+
+    @Override
+    public GetAccountDetailsResult getDetails(long accountId) throws InvalidAccountException {
+
+        // Get the account or throw an exception if account does not exist
+        var account = getAccountOrThrow(accountId);
+
+        // Create the result
+        return GetAccountDetailsResult.fromEntity(account);
     }
 }
