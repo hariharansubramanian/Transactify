@@ -135,4 +135,38 @@ class BankAccountServiceTests {
         // Assert
         assertEquals(expectedTransactions, result.transactions);
     }
+
+    /**
+     * ----------------------- GetAccountDetails Tests -----------------------
+     */
+
+    @Test
+    void GetAccountDetails_ShouldThrowInvalidAccountException_WhenInvalidAccount() {
+        // Arrange
+        long invalidAccountId = 999;
+
+        // Act & Assert
+        assertThrows(InvalidAccountException.class, () -> accountService.getDetails(invalidAccountId));
+    }
+
+    @Test
+    void GetAccountDetails_ShouldReturnAccountDetails_WhenValidAccount() throws InvalidAccountException {
+        // Arrange
+        var account = new AccountBuilder()
+                .isActive(true)
+                .withBalance(BigDecimal.valueOf(1000))
+                .withCurrency(Currency.getInstance("USD"))
+                .build();
+
+        accountRepository.save(account);
+
+        // Act
+        var result = accountService.getDetails(account.id);
+
+        // Assert
+        assertEquals(account.id, result.accountId);
+        assertEquals(account.isActive, result.isActive);
+        assertEquals(account.currency.getCurrencyCode(), result.currency);
+        assertTrue(account.isBalanceEquals(result.balance));
+    }
 }
