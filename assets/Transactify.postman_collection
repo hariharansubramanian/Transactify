@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "c61df945-18bd-4465-87f2-8afa5dae6434",
-		"name": "Modern Bank",
+		"name": "Transactify",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "1983575"
 	},
@@ -33,7 +33,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/accounts/3/statement?transactionCount=50",
+					"raw": "http://localhost:8080/accounts/1/statement?transactionCount=50",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -41,7 +41,7 @@
 					"port": "8080",
 					"path": [
 						"accounts",
-						"3",
+						"1",
 						"statement"
 					],
 					"query": [
@@ -60,7 +60,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/accounts/2/details",
+					"raw": "http://localhost:8080/accounts/3/details",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -68,7 +68,7 @@
 					"port": "8080",
 					"path": [
 						"accounts",
-						"2",
+						"3",
 						"details"
 					]
 				}
@@ -82,7 +82,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"sourceAccountId\":1,\r\n    \"destinationAccountId\":2,\r\n    \"amount\":500.23\r\n}",
+					"raw": "{\r\n    \"sourceAccountId\":2,\r\n    \"destinationAccountId\":1,\r\n    \"amount\":800\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

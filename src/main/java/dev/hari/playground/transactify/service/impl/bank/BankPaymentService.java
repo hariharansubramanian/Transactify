@@ -37,14 +37,14 @@ public class BankPaymentService implements PaymentService {
 
         // Check if the source account has sufficient funds
         if (!sourceAccount.canAffordAmount(request.amount)) {
-            throw new InsufficientFundsException(String.format("Insufficient funds in account %s", sourceAccount.id));
+            throw new InsufficientFundsException(String.format("Insufficient funds in account %s", sourceAccount.getId()));
         }
 
         // Get the destination account
         var destinationAccount = accountService.getAccountOrThrow(request.destinationAccountId, true);
 
         // Convert the amount to destination account currency
-        var convertedAmount = conversionService.convert(request.amount, sourceAccount.currency, destinationAccount.currency);
+        var convertedAmount = conversionService.convert(request.amount, sourceAccount.getCurrency(), destinationAccount.getCurrency());
 
         // Transfer the amount from source account to destination account
         TransactionType sourceTxType = TransactionType.DEBIT;

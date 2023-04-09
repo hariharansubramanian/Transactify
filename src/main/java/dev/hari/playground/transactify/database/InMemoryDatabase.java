@@ -53,10 +53,10 @@ public class InMemoryDatabase {
         assignIdIfNew(account);
 
         // Assign transaction ids to new transactions
-        account.transactions.forEach(this::assignIdIfNew);
+        account.getTransactions().forEach(this::assignIdIfNew);
 
         // Update the account
-        accountMap.put(account.id, account);
+        accountMap.put(account.getId(), account);
         return account;
     }
 
@@ -68,23 +68,23 @@ public class InMemoryDatabase {
         assignIdIfNew(transaction);
 
         // Add transaction to account
-        var accountId = transaction.account.id;
+        var accountId = transaction.getAccount().getId();
         Account account = getAccountMap().get(accountId);
-        account.transactions.add(transaction);
+        account.getTransactions().add(transaction);
 
         return transaction;
 
     }
 
     private void assignIdIfNew(Account account) {
-        if (account.id == 0) {
-            account.id = getNextAccountId();
+        if (account.getId() == 0) {
+            account.setId(getNextAccountId());
         }
     }
 
     private void assignIdIfNew(Transaction transaction) {
-        if (transaction.id == 0) {
-            transaction.id = getNextTransactionId();
+        if (transaction.getId() == 0) {
+            transaction.setId(getNextTransactionId());
         }
     }
 }

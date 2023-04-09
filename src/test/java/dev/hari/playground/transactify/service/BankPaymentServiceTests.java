@@ -44,7 +44,7 @@ class BankPaymentServiceTests {
                 .build();
         accountRepository.save(account);
 
-        var destinationAccountId = account.id;
+        var destinationAccountId = account.getId();
         var sourceAccountId = 999;
 
         BigDecimal amountToPay = BigDecimal.valueOf(100);
@@ -65,7 +65,7 @@ class BankPaymentServiceTests {
                 .build();
         accountRepository.save(account);
 
-        var sourceAccountId = account.id;
+        var sourceAccountId = account.getId();
         var destinationAccountId = 999;
 
         // Act and Assert
@@ -86,7 +86,7 @@ class BankPaymentServiceTests {
                 .build();
         accountRepository.save(account);
 
-        var destinationAccountId = account.id;
+        var destinationAccountId = account.getId();
         var sourceAccountId = -1;
 
         // Act & Assert
@@ -107,7 +107,7 @@ class BankPaymentServiceTests {
                 .build();
         accountRepository.save(account);
 
-        var sourceAccountId = account.id;
+        var sourceAccountId = account.getId();
         var destinationAccountId = -1;
 
         // Act & Assert
@@ -139,7 +139,7 @@ class BankPaymentServiceTests {
         accountRepository.save(destinationAccount);
 
         // Act & Assert
-        PaymentRequest request = new PaymentRequest(sourceAccount.id, destinationAccount.id, invalidAmount);
+        PaymentRequest request = new PaymentRequest(sourceAccount.getId(), destinationAccount.getId(), invalidAmount);
         assertThrows(PaymentRequestValidationException.class, () -> paymentService.processPayment(request));
     }
 
@@ -166,7 +166,7 @@ class BankPaymentServiceTests {
 
         // Act & Assert
         BigDecimal amountToPay = sourceBalance.add(BigDecimal.valueOf(1));
-        PaymentRequest request = new PaymentRequest(sourceAccount.id, destinationAccount.id, amountToPay);
+        PaymentRequest request = new PaymentRequest(sourceAccount.getId(), destinationAccount.getId(), amountToPay);
 
         assertThrows(InsufficientFundsException.class, () -> paymentService.processPayment(request));
     }
@@ -194,7 +194,7 @@ class BankPaymentServiceTests {
 
         // Act & Assert
         BigDecimal amountToPay = BigDecimal.valueOf(100);
-        PaymentRequest request = new PaymentRequest(inactiveSrcAccount.id, destinationAccount.id, amountToPay);
+        PaymentRequest request = new PaymentRequest(inactiveSrcAccount.getId(), destinationAccount.getId(), amountToPay);
 
         assertThrows(InvalidAccountException.class, () -> paymentService.processPayment(request));
     }
@@ -222,7 +222,7 @@ class BankPaymentServiceTests {
 
         // Act & Assert
         BigDecimal amountToPay = BigDecimal.valueOf(100);
-        PaymentRequest request = new PaymentRequest(sourceAccount.id, inactiveDestinationAccount.id, amountToPay);
+        PaymentRequest request = new PaymentRequest(sourceAccount.getId(), inactiveDestinationAccount.getId(), amountToPay);
 
         assertThrows(InvalidAccountException.class, () -> paymentService.processPayment(request));
     }
@@ -254,13 +254,13 @@ class BankPaymentServiceTests {
         BigDecimal expectedDestinationBalance = initialDestinationBalance.add(amountToPay);
 
         // Act
-        var request = new PaymentRequest(sourceAccount.id, destinationAccount.id, amountToPay);
+        var request = new PaymentRequest(sourceAccount.getId(), destinationAccount.getId(), amountToPay);
         paymentService.processPayment(request);
 
         // Assert
         // TODO: See if we can avoid this extra call to DB
-        var srcAccountFromDb = accountRepository.findAccountById(sourceAccount.id);
-        var destAccountFromDB = accountRepository.findAccountById(destinationAccount.id);
+        var srcAccountFromDb = accountRepository.findAccountById(sourceAccount.getId());
+        var destAccountFromDB = accountRepository.findAccountById(destinationAccount.getId());
 
         assertTrue(srcAccountFromDb.isBalanceEquals(expectedSourceBalance));
         assertTrue(destAccountFromDB.isBalanceEquals(expectedDestinationBalance));
@@ -291,17 +291,17 @@ class BankPaymentServiceTests {
 
         // Calculate expected balances
         BigDecimal expectedSourceBalance = initialSourceBalance.subtract(amountToPay).setScale(2, RoundingMode.HALF_UP);
-        var convertedAmount = conversionService.convert(amountToPay, sourceAccount.currency, destinationAccount.currency);
+        var convertedAmount = conversionService.convert(amountToPay, sourceAccount.getCurrency(), destinationAccount.getCurrency());
         BigDecimal expectedDestinationBalance = initialDestinationBalance.add(convertedAmount).setScale(2, RoundingMode.HALF_UP);
 
         // Act
-        var request = new PaymentRequest(sourceAccount.id, destinationAccount.id, amountToPay);
+        var request = new PaymentRequest(sourceAccount.getId(), destinationAccount.getId(), amountToPay);
         paymentService.processPayment(request);
 
         // Assert
         // TODO: See if we can avoid this extra call to DB
-        var srcAccountFromDb = accountRepository.findAccountById(sourceAccount.id);
-        var destAccountFromDb = accountRepository.findAccountById(destinationAccount.id);
+        var srcAccountFromDb = accountRepository.findAccountById(sourceAccount.getId());
+        var destAccountFromDb = accountRepository.findAccountById(destinationAccount.getId());
 
         assertTrue(srcAccountFromDb.isBalanceEquals(expectedSourceBalance));
         assertTrue(destAccountFromDb.isBalanceEquals(expectedDestinationBalance));

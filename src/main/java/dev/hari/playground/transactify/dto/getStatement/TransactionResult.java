@@ -13,9 +13,9 @@ public class TransactionResult {
 
     public static TransactionResult fromEntity(Transaction transaction) {
         var result = new TransactionResult();
-        result.type = transaction.type.name();
+        result.type = transaction.getType().name();
         result.amount = transaction.getAmount();
-        result.currency = transaction.currency.getCurrencyCode();
+        result.currency = transaction.getCurrency().getCurrencyCode();
         result.createdAt = transaction.getCreatedAt().toString();
         return result;
     }

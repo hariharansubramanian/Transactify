@@ -30,10 +30,12 @@ public class GetAccountDetailsResult {
      */
     public static GetAccountDetailsResult fromEntity(Account account) {
         var result = new GetAccountDetailsResult();
-        result.accountId = account.id;
-        result.isActive = account.isActive;
-        result.currency = account.currency.getCurrencyCode();
-        result.balance = account.balance;
+
+        result.accountId = account.getId();
+        result.isActive = account.isActive();
+        result.currency = account.getCurrency().getCurrencyCode();
+        result.balance = account.getBalance();
+
         return result;
     }
 }

@@ -27,7 +27,7 @@ public class GetStatementResult {
     public static GetStatementResult fromEntity(Account account, List<Transaction> transactions) {
         var result = new GetStatementResult();
 
-        result.accountId = account.id;
+        result.accountId = account.getId();
         result.transactions = transactions
                 .stream()
                 .map(TransactionResult::fromEntity)

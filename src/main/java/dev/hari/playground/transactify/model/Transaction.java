@@ -9,7 +9,6 @@ import java.util.Currency;
 
 /**
  * Entity representing a transaction
- * Note: all properties are public for ease of readability and lesser code, this is not a good practice in real world
  */
 @Entity
 public class Transaction {
@@ -17,14 +16,18 @@ public class Transaction {
     /* ------------------- Properties ------------------- */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public long id;
+    private long id;
 
+    /**
+     * Amount of the transaction
+     * Note: Recommended to use BigDecimal over double for financial calculations. See <a href="https://www.linkedin.com/pulse/why-we-should-use-bigdecimal-instead-double-java-financial-ismail/">this article</a>.
+     */
     private BigDecimal amount;
 
-    public Currency currency;
+    private Currency currency;
 
     @Enumerated(EnumType.STRING)
-    public TransactionType type;
+    private TransactionType type;
 
     // Note: ZonedDateTime is used instead of LocalDateTime because it is more suitable for storing date and time with time zone
     private ZonedDateTime createdAt;
@@ -32,9 +35,16 @@ public class Transaction {
     /* ------------------- Relationships ------------------- */
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Account.class)
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
-    public Account account;
+    private Account account;
 
     /* ------------------- Getters & setters ------------------- */
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
     public BigDecimal getAmount() {
         return amount;
     }
@@ -49,5 +59,30 @@ public class Transaction {
 
     public void setCreatedAt(ZonedDateTime createdAt) {
         this.createdAt = createdAt.truncatedTo(java.time.temporal.ChronoUnit.MICROS); // Truncate to microseconds (H2 does not support nanoseconds)
+    }
+
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public TransactionType getType() {
+        return type;
+    }
+
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

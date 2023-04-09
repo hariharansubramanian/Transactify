@@ -66,7 +66,7 @@ public class BankAccountService implements AccountService {
         var account = accountRepository.findAccountById(accountId);
 
         // Throw an exception if account does not exist or is not active
-        if ((account == null) || (mustBeActive && !account.isActive)) {
+        if ((account == null) || (mustBeActive && !account.isActive())) {
             throw new InvalidAccountException(String.format("Account with id %s is invalid", accountId));
         }
 
@@ -86,12 +86,12 @@ public class BankAccountService implements AccountService {
     @Override
     public void updateBalance(Account account, TransactionType transactionType, BigDecimal amount) {
         // Get the current balance
-        var currentBalance = account.balance;
+        var currentBalance = account.getBalance();
 
         // Update the balance based on the transaction type
         switch (transactionType) {
-            case CREDIT -> account.balance = currentBalance.add(amount);
-            case DEBIT -> account.balance = currentBalance.subtract(amount);
+            case CREDIT -> account.setBalance(currentBalance.add(amount));
+            case DEBIT -> account.setBalance(currentBalance.subtract(amount));
         }
 
         // Save the account

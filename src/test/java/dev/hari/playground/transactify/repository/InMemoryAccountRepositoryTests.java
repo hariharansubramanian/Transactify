@@ -26,15 +26,15 @@ class InMemoryAccountRepositoryTests {
     void findAccountById() {
         // Create an account
         Account account = new Account();
-        account.balance = BigDecimal.valueOf(100.0);
+        account.setBalance(BigDecimal.valueOf(100.0));
 
         // Save the account
         Account savedAccount = accountRepository.save(account);
-        Account foundAccount = accountRepository.findAccountById(savedAccount.id);
+        Account foundAccount = accountRepository.findAccountById(savedAccount.getId());
 
         // Assert the account
-        assertEquals(savedAccount.id, foundAccount.id);
-        assertEquals(savedAccount.balance, foundAccount.balance);
+        assertEquals(savedAccount.getId(), foundAccount.getId());
+        assertEquals(savedAccount.getBalance(), foundAccount.getBalance());
     }
 
     @Test
@@ -47,12 +47,12 @@ class InMemoryAccountRepositoryTests {
     void saveAccount() {
         // Create an account
         Account account = new Account();
-        account.balance = BigDecimal.valueOf(200.0);
+        account.setBalance(BigDecimal.valueOf(200.0));
 
         // Save the account
         Account savedAccount = accountRepository.save(account);
 
         // Assert the account
-        assertTrue(account.isBalanceEquals(savedAccount.balance));
+        assertTrue(account.isBalanceEquals(savedAccount.getBalance()));
     }
 }

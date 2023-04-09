@@ -41,9 +41,9 @@ class InMemoryDatabaseTests {
 
         // Assert the account
         assertNotNull(savedAccount);
-        assertEquals(1, savedAccount.id);
-        assertTrue(account.isBalanceEquals(savedAccount.balance));
-        assertEquals(account.currency, savedAccount.currency);
+        assertEquals(1, savedAccount.getId());
+        assertTrue(account.isBalanceEquals(savedAccount.getBalance()));
+        assertEquals(account.getCurrency(), savedAccount.getCurrency());
 
         // Assert the database
         Map<Long, Account> accountMap = inMemoryDatabase.getAccountMap();
@@ -76,13 +76,13 @@ class InMemoryDatabaseTests {
 
         // Assert the transaction
         assertNotNull(savedTransaction);
-        assertEquals(1, savedTransaction.id);
+        assertEquals(1, savedTransaction.getId());
         assertEquals(0, transaction.getAmount().compareTo(savedTransaction.getAmount()));
-        assertEquals(transaction.type, savedTransaction.type);
+        assertEquals(transaction.getType(), savedTransaction.getType());
 
         // Assert the database
         Account savedAccount = inMemoryDatabase.getAccountMap().get(1L);
-        assertEquals(1, savedAccount.transactions.size());
-        assertEquals(savedTransaction, savedAccount.transactions.get(0));
+        assertEquals(1, savedAccount.getTransactions().size());
+        assertEquals(savedTransaction, savedAccount.getTransactions().get(0));
     }
 }

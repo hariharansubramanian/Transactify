@@ -28,9 +28,9 @@ public class InMemoryTransactionRepository implements TransactionRepository {
             return Collections.emptyList();
         }
 
-        return account.transactions
+        return account.getTransactions()
                 .stream()
-                .filter(transaction -> transaction.account.id == accountId)
+                .filter(transaction -> transaction.getAccount().getId() == accountId)
                 .sorted(Comparator.comparing(Transaction::getCreatedAt, Comparator.reverseOrder()))
                 .skip(pageable.getOffset())
                 .limit(pageable.getPageSize())

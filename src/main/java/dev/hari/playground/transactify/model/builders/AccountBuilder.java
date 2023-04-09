@@ -22,17 +22,17 @@ public class AccountBuilder {
     }
 
     public AccountBuilder isActive(boolean isActive) {
-        this.account.isActive = isActive;
+        this.account.setActive(isActive);
         return this;
     }
 
     public AccountBuilder withBalance(BigDecimal balance) {
-        this.account.balance = balance;
+        this.account.setBalance(balance);
         return this;
     }
 
     public AccountBuilder withCurrency(Currency currency) {
-        this.account.currency = currency;
+        this.account.setCurrency(currency);
         return this;
     }
 
@@ -55,15 +55,15 @@ public class AccountBuilder {
             // Create transaction
             Transaction transaction = new TransactionBuilder()
                     .withAmount(amount)
-                    .withCurrency(account.currency)
+                    .withCurrency(account.getCurrency())
                     .withType(type)
                     .withAccount(account) // FIXME: the account should ideally be inferred since its a foreign key, but without this, the transaction gets a null account and fails to save
                     .withCreatedAt(createdAt.plus(i, java.time.temporal.ChronoUnit.SECONDS)) // Add i seconds to createdAt to make sure the transactions are not created at the same time
                     .build();
 
             // Update account balance depending on transaction type
-            account.balance = type == TransactionType.DEBIT ? account.balance.subtract(transaction.getAmount()) : account.balance.add(transaction.getAmount());
-            account.transactions.add(transaction);
+            account.setBalance(type == TransactionType.DEBIT ? account.getBalance().subtract(transaction.getAmount()) : account.getBalance().add(transaction.getAmount()));
+            account.getTransactions().add(transaction);
         });
     }
 

@@ -50,7 +50,7 @@ class BankAccountServiceTests {
         accountRepository.save(account);
 
         // Act
-        GetAccountBalanceResult result = accountService.getBalance(account.id);
+        GetAccountBalanceResult result = accountService.getBalance(account.getId());
 
         // Assert
         assertTrue(account.isBalanceEquals(result.balance));
@@ -84,7 +84,7 @@ class BankAccountServiceTests {
         accountRepository.save(account);
 
         // Act & Assert
-        assertThrows(ExceededMaxRequestedTransactionsException.class, () -> accountService.getStatement(account.id, transactionCount));
+        assertThrows(ExceededMaxRequestedTransactionsException.class, () -> accountService.getStatement(account.getId(), transactionCount));
     }
 
     @Test
@@ -102,7 +102,7 @@ class BankAccountServiceTests {
         accountRepository.save(account);
 
         // Act
-        var result = accountService.getStatement(account.id, transactionCount);
+        var result = accountService.getStatement(account.getId(), transactionCount);
 
         // Assert
         assertEquals(transactionCount, result.transactions.size());
@@ -122,7 +122,7 @@ class BankAccountServiceTests {
 
         accountRepository.save(account);
 
-        List<TransactionResult> expectedTransactions = account.transactions
+        List<TransactionResult> expectedTransactions = account.getTransactions()
                 .stream()
                 .sorted((t1, t2) -> t2.getCreatedAt().compareTo(t1.getCreatedAt()))
                 .limit(transactionCount)
@@ -130,7 +130,7 @@ class BankAccountServiceTests {
                 .toList();
 
         // Act
-        var result = accountService.getStatement(account.id, transactionCount);
+        var result = accountService.getStatement(account.getId(), transactionCount);
 
         // Assert
         assertEquals(expectedTransactions, result.transactions);
@@ -161,12 +161,12 @@ class BankAccountServiceTests {
         accountRepository.save(account);
 
         // Act
-        var result = accountService.getDetails(account.id);
+        var result = accountService.getDetails(account.getId());
 
         // Assert
-        assertEquals(account.id, result.accountId);
-        assertEquals(account.isActive, result.isActive);
-        assertEquals(account.currency.getCurrencyCode(), result.currency);
+        assertEquals(account.getId(), result.accountId);
+        assertEquals(account.isActive(), result.isActive);
+        assertEquals(account.getCurrency().getCurrencyCode(), result.currency);
         assertTrue(account.isBalanceEquals(result.balance));
     }
 }

@@ -33,7 +33,7 @@ public class BankTransactionService implements TransactionService {
         // Create transaction of type transactionType
         var transaction = new TransactionBuilder()
                 .withAccount(account)
-                .withCurrency(account.currency)
+                .withCurrency(account.getCurrency())
                 .withType(transactionType)
                 .withAmount(amount)
                 .build();

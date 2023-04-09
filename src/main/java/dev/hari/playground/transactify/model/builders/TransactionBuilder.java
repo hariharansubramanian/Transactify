@@ -27,12 +27,12 @@ public class TransactionBuilder {
     }
 
     public TransactionBuilder withCurrency(Currency currency) {
-        this.transaction.currency = currency;
+        this.transaction.setCurrency(currency);
         return this;
     }
 
     public TransactionBuilder withType(TransactionType type) {
-        this.transaction.type = type;
+        this.transaction.setType(type);
         return this;
     }
 
@@ -42,7 +42,7 @@ public class TransactionBuilder {
     }
 
     public TransactionBuilder withAccount(Account account) {
-        this.transaction.account = account;
+        this.transaction.setAccount(account);
         return this;
     }
 

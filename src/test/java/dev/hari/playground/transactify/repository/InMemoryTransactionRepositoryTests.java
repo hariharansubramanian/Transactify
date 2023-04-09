@@ -51,7 +51,7 @@ class InMemoryTransactionRepositoryTests {
 
         // Find the transaction
         Pageable pageable = PageRequest.of(0, 10);
-        List<Transaction> transactions = transactionRepository.findAllByAccountId(account.id, pageable);
+        List<Transaction> transactions = transactionRepository.findAllByAccountId(account.getId(), pageable);
         Transaction transactionFromDb = transactions.get(0);
 
         assertEquals(1, transactions.size());
