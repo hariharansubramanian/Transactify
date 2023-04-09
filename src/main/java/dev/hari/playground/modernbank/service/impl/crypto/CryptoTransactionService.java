@@ -5,7 +5,6 @@ import dev.hari.playground.modernbank.model.Transaction;
 import dev.hari.playground.modernbank.model.TransactionType;
 import dev.hari.playground.modernbank.service.TransactionService;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;

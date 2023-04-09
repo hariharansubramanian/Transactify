@@ -13,6 +13,18 @@ public class GetAccountDetailsResult {
     public String currency;
     public BigDecimal balance;
 
+
+    public GetAccountDetailsResult() {
+        // Empty constructor for serialization
+    }
+
+    public GetAccountDetailsResult(long accountId, boolean isActive, String currency, BigDecimal balance) {
+        this.accountId = accountId;
+        this.isActive = isActive;
+        this.currency = currency;
+        this.balance = balance;
+    }
+
     /**
      * Factory method to create DTO from {@link Account} entity
      */

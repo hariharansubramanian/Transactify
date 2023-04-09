@@ -37,6 +37,15 @@ public class InMemoryDatabase {
     }
 
     /**
+     * Reset the database, used in tests only
+     */
+    public void reset() {
+        accountMap.clear();
+        accountIdCounter.set(1);
+        transactionIdCounter.set(1);
+    }
+
+    /**
      * Save account and its transactions
      */
     public Account saveAccount(Account account) {

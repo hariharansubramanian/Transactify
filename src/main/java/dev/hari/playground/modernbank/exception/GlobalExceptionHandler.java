@@ -4,6 +4,7 @@ import dev.hari.playground.modernbank.dto.ErrorDetail;
 import dev.hari.playground.modernbank.exception.classes.*;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,9 +23,9 @@ public class GlobalExceptionHandler {
      * @return {@link ErrorDetail} with {@link HttpStatus#BAD_REQUEST}
      */
     @ExceptionHandler({InvalidAccountException.class, ExceededMaxRequestedTransactionsException.class, PaymentRequestValidationException.class})
-    @ResponseBody
-    public ErrorDetail handleCustomBadRequestExceptions(Exception e) {
-        return new ErrorDetail(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+    public ResponseEntity<ErrorDetail> handleCustomBadRequestExceptions(Exception e) {
+        ErrorDetail errorDetail = new ErrorDetail(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetail);
     }
 
     /**
@@ -34,11 +35,10 @@ public class GlobalExceptionHandler {
      * @return {@link ErrorDetail} with {@link HttpStatus#METHOD_NOT_ALLOWED} status code
      */
     @ExceptionHandler({InsufficientFundsException.class})
-    @ResponseBody
-    public ErrorDetail handleCustomPaymentExceptions(Exception e) {
-        return new ErrorDetail(HttpStatus.METHOD_NOT_ALLOWED.value(), e.getMessage());
+    public ResponseEntity<ErrorDetail> handleCustomPaymentExceptions(Exception e) {
+        var errorDetail = new ErrorDetail(HttpStatus.METHOD_NOT_ALLOWED.value(), e.getMessage());
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(errorDetail);
     }
-
 
     /**
      * Handles {@link ExchangeRatesFetchException} and returns {@link ErrorDetail} with a {@link HttpStatus#SERVICE_UNAVAILABLE} status code
@@ -48,8 +48,9 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ExchangeRatesFetchException.class)
     @ResponseBody
-    public ErrorDetail handleExchangeRatesFetchException(ExchangeRatesFetchException e) {
-        return new ErrorDetail(HttpStatus.SERVICE_UNAVAILABLE.value(), e.getMessage());
+    public ResponseEntity<ErrorDetail> handleExchangeRatesFetchException(ExchangeRatesFetchException e) {
+        var errorDetail = new ErrorDetail(HttpStatus.SERVICE_UNAVAILABLE.value(), e.getMessage());
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(errorDetail);
     }
 
     /**
@@ -60,8 +61,9 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(NotImplementedException.class)
     @ResponseBody
-    public ErrorDetail handleNotImplementedException(NotImplementedException e) {
-        return new ErrorDetail(HttpStatus.NOT_IMPLEMENTED.value(), e.getMessage());
+    public ResponseEntity<ErrorDetail> handleNotImplementedException(NotImplementedException e) {
+        var errorDetail = new ErrorDetail(HttpStatus.NOT_IMPLEMENTED.value(), e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(errorDetail);
     }
 
     /**
@@ -72,7 +74,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ErrorDetail handleGenericException(Exception e) {
-        return new ErrorDetail(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+    public ResponseEntity<ErrorDetail> handleGenericException(Exception e) {
+        var errorDetail = new ErrorDetail(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetail);
     }
 }

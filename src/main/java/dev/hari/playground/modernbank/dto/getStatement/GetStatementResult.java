@@ -12,6 +12,15 @@ public class GetStatementResult {
     public long accountId;
     public List<TransactionResult> transactions;
 
+    public GetStatementResult() {
+        // Empty constructor for serialization
+    }
+
+    public GetStatementResult(long accountId, List<TransactionResult> transactions) {
+        this.accountId = accountId;
+        this.transactions = transactions;
+    }
+
     /**
      * Factory method to create DTO from {@link Account} entity and list of {@link Transaction}
      */
