@@ -1,5 +1,6 @@
 package dev.hari.playground.modernbank.repository;
 
+import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.model.Transaction;
 import org.springframework.data.domain.Pageable;
 

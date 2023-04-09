@@ -45,7 +45,7 @@ public class AccountBuilder {
      * Generates count number of random transactions between min and max amount and updates the account balance
      */
     private void generateRandomTransactions(int count, double minAmount, double maxAmount) {
-        var createdAt = ZonedDateTime.now();
+        var createdAt = ZonedDateTime.now().minus(1, java.time.temporal.ChronoUnit.DAYS);
         // Generate count number of random transactions making sure the balance is positive
         IntStream.range(0, count).forEach(i -> {
             // Generate random amount and transaction type

@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 import java.util.Currency;
 
 @Component
-public class JpaDatabaseSeeder implements CommandLineRunner {
-    private final AccountRepository jpaAccountRepository;
+public class DataSeeder implements CommandLineRunner {
+    private final AccountRepository accountRepository;
 
-    public JpaDatabaseSeeder(AccountRepository jpaAccountRepository) {
-        this.jpaAccountRepository = jpaAccountRepository;
+    public DataSeeder(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
     }
 
     @Override
@@ -38,8 +38,8 @@ public class JpaDatabaseSeeder implements CommandLineRunner {
                 .withRandomTransactions(100, 10.50, 5247.50)
                 .build();
 
-        jpaAccountRepository.save(activeAmericanAccount);
-        jpaAccountRepository.save(activeIndianAccount);
-        jpaAccountRepository.save(inactiveNorwegianAccount);
+        accountRepository.save(activeAmericanAccount);
+        accountRepository.save(activeIndianAccount);
+        accountRepository.save(inactiveNorwegianAccount);
     }
 }
