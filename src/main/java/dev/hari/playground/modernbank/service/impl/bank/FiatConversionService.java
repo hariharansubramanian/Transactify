@@ -12,10 +12,10 @@ import java.util.Currency;
  */
 public class FiatConversionService implements ConversionService {
 
-    private final ExchangeRateClient conversionApiClient;
+    private final ExchangeRateClient exchangeRateClient;
 
     public FiatConversionService(ExchangeRateClient conversionApiClient) {
-        this.conversionApiClient = conversionApiClient;
+        this.exchangeRateClient = conversionApiClient;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class FiatConversionService implements ConversionService {
         }
 
         // Get the exchange rates
-        var response = conversionApiClient.getExchangeRates(sourceCurrency);
+        var response = exchangeRateClient.getExchangeRates(sourceCurrency);
 
         // Get the conversion rate for destination currency
         var conversionRate = response.rates.get(destinationCurrency.getCurrencyCode());

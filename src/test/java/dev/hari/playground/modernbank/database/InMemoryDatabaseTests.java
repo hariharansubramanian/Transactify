@@ -7,6 +7,7 @@ import dev.hari.playground.modernbank.model.builders.AccountBuilder;
 import dev.hari.playground.modernbank.model.builders.TransactionBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@SpringBootTest
 class InMemoryDatabaseTests {
 
     private InMemoryDatabase inMemoryDatabase;
@@ -47,7 +48,7 @@ class InMemoryDatabaseTests {
         // Assert the database
         Map<Long, Account> accountMap = inMemoryDatabase.getAccountMap();
         assertEquals(1, accountMap.size());
-        assertEquals(savedAccount, accountMap.get(1));
+        assertEquals(savedAccount, accountMap.get(1L));
     }
 
     @Test
@@ -63,8 +64,7 @@ class InMemoryDatabaseTests {
         inMemoryDatabase.saveAccount(account);
 
         // Create a transaction
-        Transaction transaction =
-                new TransactionBuilder()
+        Transaction transaction = new TransactionBuilder()
                         .withAccount(account)
                         .withAmount(BigDecimal.valueOf(50))
                         .withType(TransactionType.DEBIT)
@@ -77,11 +77,11 @@ class InMemoryDatabaseTests {
         // Assert the transaction
         assertNotNull(savedTransaction);
         assertEquals(1, savedTransaction.id);
-        assertTrue(transaction.getAmount().compareTo(savedTransaction.getAmount()) == 0);
+        assertEquals(0, transaction.getAmount().compareTo(savedTransaction.getAmount()));
         assertEquals(transaction.type, savedTransaction.type);
 
         // Assert the database
-        Account savedAccount = inMemoryDatabase.getAccountMap().get(1);
+        Account savedAccount = inMemoryDatabase.getAccountMap().get(1L);
         assertEquals(1, savedAccount.transactions.size());
         assertEquals(savedTransaction, savedAccount.transactions.get(0));
     }
