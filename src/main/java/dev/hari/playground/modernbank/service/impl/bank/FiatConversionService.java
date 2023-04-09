@@ -1,9 +1,8 @@
 package dev.hari.playground.modernbank.service.impl.bank;
 
-import dev.hari.playground.modernbank.client.ExchangeRatesClient;
-import dev.hari.playground.modernbank.exception.ExchangeRatesFetchException;
+import dev.hari.playground.modernbank.client.ExchangeRateClient;
+import dev.hari.playground.modernbank.exception.classes.ExchangeRatesFetchException;
 import dev.hari.playground.modernbank.service.ConversionService;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -13,9 +12,9 @@ import java.util.Currency;
  */
 public class FiatConversionService implements ConversionService {
 
-    private final ExchangeRatesClient conversionApiClient;
+    private final ExchangeRateClient conversionApiClient;
 
-    public FiatConversionService(ExchangeRatesClient conversionApiClient) {
+    public FiatConversionService(ExchangeRateClient conversionApiClient) {
         this.conversionApiClient = conversionApiClient;
     }
 

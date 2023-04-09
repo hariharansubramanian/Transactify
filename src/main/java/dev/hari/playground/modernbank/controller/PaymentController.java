@@ -1,7 +1,11 @@
 package dev.hari.playground.modernbank.controller;
 
+import dev.hari.playground.modernbank.dto.ErrorDetail;
 import dev.hari.playground.modernbank.dto.processPayment.PaymentRequest;
-import dev.hari.playground.modernbank.exception.*;
+import dev.hari.playground.modernbank.exception.classes.ExchangeRatesFetchException;
+import dev.hari.playground.modernbank.exception.classes.InsufficientFundsException;
+import dev.hari.playground.modernbank.exception.classes.InvalidAccountException;
+import dev.hari.playground.modernbank.exception.classes.PaymentRequestValidationException;
 import dev.hari.playground.modernbank.service.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

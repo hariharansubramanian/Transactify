@@ -1,17 +1,16 @@
 package dev.hari.playground.modernbank.service.impl.bank;
 
 import dev.hari.playground.modernbank.dto.processPayment.PaymentRequest;
-import dev.hari.playground.modernbank.exception.ExchangeRatesFetchException;
-import dev.hari.playground.modernbank.exception.InsufficientFundsException;
-import dev.hari.playground.modernbank.exception.InvalidAccountException;
-import dev.hari.playground.modernbank.exception.PaymentRequestValidationException;
+import dev.hari.playground.modernbank.exception.classes.ExchangeRatesFetchException;
+import dev.hari.playground.modernbank.exception.classes.InsufficientFundsException;
+import dev.hari.playground.modernbank.exception.classes.InvalidAccountException;
+import dev.hari.playground.modernbank.exception.classes.PaymentRequestValidationException;
 import dev.hari.playground.modernbank.model.TransactionType;
 import dev.hari.playground.modernbank.service.AccountService;
 import dev.hari.playground.modernbank.service.ConversionService;
 import dev.hari.playground.modernbank.service.PaymentService;
 import dev.hari.playground.modernbank.service.TransactionService;
 import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Service;
 
 /**
  * Bank specific implementations of {@link PaymentService} behaviors for payments

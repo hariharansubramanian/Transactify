@@ -1,4 +1,4 @@
-package dev.hari.playground.modernbank.repository.impl;
+package dev.hari.playground.modernbank.repository.impl.inMemory;
 
 import dev.hari.playground.modernbank.database.InMemoryDatabase;
 import dev.hari.playground.modernbank.model.Account;

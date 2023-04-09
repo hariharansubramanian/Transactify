@@ -1,4 +1,4 @@
-package dev.hari.playground.modernbank.exception;
+package dev.hari.playground.modernbank.exception.classes;
 
 /**
  * Exception thrown when there are insufficient funds in the source account to make a payment

@@ -1,7 +1,10 @@
 package dev.hari.playground.modernbank.service;
 
 import dev.hari.playground.modernbank.dto.processPayment.PaymentRequest;
-import dev.hari.playground.modernbank.exception.*;
+import dev.hari.playground.modernbank.exception.classes.ExchangeRatesFetchException;
+import dev.hari.playground.modernbank.exception.classes.InsufficientFundsException;
+import dev.hari.playground.modernbank.exception.classes.InvalidAccountException;
+import dev.hari.playground.modernbank.exception.classes.PaymentRequestValidationException;
 import dev.hari.playground.modernbank.model.builders.AccountBuilder;
 import dev.hari.playground.modernbank.repository.AccountRepository;
 import org.junit.jupiter.api.Test;

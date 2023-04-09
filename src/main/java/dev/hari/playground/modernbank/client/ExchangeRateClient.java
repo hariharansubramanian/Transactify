@@ -1,10 +1,10 @@
 package dev.hari.playground.modernbank.client;
 
 import dev.hari.playground.modernbank.dto.processPayment.GetExchangeRatesResponse;
-import dev.hari.playground.modernbank.exception.ExchangeRatesFetchException;
+import dev.hari.playground.modernbank.exception.classes.ExchangeRatesFetchException;
 
 import java.util.Currency;
 
-public interface ExchangeRatesClient {
+public interface ExchangeRateClient {
     GetExchangeRatesResponse getExchangeRates(Currency baseCurrency) throws ExchangeRatesFetchException;
 }

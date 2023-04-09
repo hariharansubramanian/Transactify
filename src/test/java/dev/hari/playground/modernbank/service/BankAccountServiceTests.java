@@ -2,8 +2,8 @@ package dev.hari.playground.modernbank.service;
 
 import dev.hari.playground.modernbank.dto.getBalance.GetAccountBalanceResult;
 import dev.hari.playground.modernbank.dto.getStatement.TransactionResult;
-import dev.hari.playground.modernbank.exception.ExceededMaxRequestedTransactionsException;
-import dev.hari.playground.modernbank.exception.InvalidAccountException;
+import dev.hari.playground.modernbank.exception.classes.ExceededMaxRequestedTransactionsException;
+import dev.hari.playground.modernbank.exception.classes.InvalidAccountException;
 import dev.hari.playground.modernbank.model.builders.AccountBuilder;
 import dev.hari.playground.modernbank.repository.AccountRepository;
 import dev.hari.playground.modernbank.service.impl.bank.BankAccountService;

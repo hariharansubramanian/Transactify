@@ -3,9 +3,9 @@ package dev.hari.playground.modernbank.client.impl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.hari.playground.modernbank.client.ExchangeRatesClient;
+import dev.hari.playground.modernbank.client.ExchangeRateClient;
 import dev.hari.playground.modernbank.dto.processPayment.GetExchangeRatesResponse;
-import dev.hari.playground.modernbank.exception.ExchangeRatesFetchException;
+import dev.hari.playground.modernbank.exception.classes.ExchangeRatesFetchException;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
@@ -17,11 +17,11 @@ import java.util.Map;
  * Mock client that fetches exchange rates from a resource file 'exchange_rates.json'
  */
 @Component
-public class FileExchangeRatesClient implements ExchangeRatesClient {
+public class FileExchangeRateClient implements ExchangeRateClient {
 
     private final ObjectMapper objectMapper;
 
-    public FileExchangeRatesClient(ObjectMapper objectMapper) {
+    public FileExchangeRateClient(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 

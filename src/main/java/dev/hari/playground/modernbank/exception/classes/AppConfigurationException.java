@@ -1,4 +1,4 @@
-package dev.hari.playground.modernbank.exception;
+package dev.hari.playground.modernbank.exception.classes;
 
 /**
  * Exception thrown when there is an error in the configuration of the application

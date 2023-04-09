@@ -1,4 +1,4 @@
-package dev.hari.playground.modernbank.exception;
+package dev.hari.playground.modernbank.exception.classes;
 
 import java.util.List;
 

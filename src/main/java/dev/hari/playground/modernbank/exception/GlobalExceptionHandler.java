@@ -1,5 +1,7 @@
 package dev.hari.playground.modernbank.exception;
 
+import dev.hari.playground.modernbank.dto.ErrorDetail;
+import dev.hari.playground.modernbank.exception.classes.*;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

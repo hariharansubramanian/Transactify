@@ -1,6 +1,6 @@
 package dev.hari.playground.modernbank.dto.processPayment;
 
-import dev.hari.playground.modernbank.exception.PaymentRequestValidationException;
+import dev.hari.playground.modernbank.exception.classes.PaymentRequestValidationException;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 

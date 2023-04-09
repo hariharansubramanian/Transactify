@@ -1,4 +1,4 @@
-package dev.hari.playground.modernbank.exception;
+package dev.hari.playground.modernbank.exception.classes;
 
 /**
  * Exception thrown when the requested number of transactions exceeds the maximum allowed for a statement

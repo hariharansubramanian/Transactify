@@ -1,6 +1,6 @@
 package dev.hari.playground.modernbank.service;
 
-import dev.hari.playground.modernbank.exception.ExchangeRatesFetchException;
+import dev.hari.playground.modernbank.exception.classes.ExchangeRatesFetchException;
 
 import java.math.BigDecimal;
 import java.util.Currency;

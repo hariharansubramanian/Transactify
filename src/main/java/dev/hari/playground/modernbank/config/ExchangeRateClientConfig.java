@@ -1,9 +1,9 @@
 package dev.hari.playground.modernbank.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.hari.playground.modernbank.client.ExchangeRatesClient;
+import dev.hari.playground.modernbank.client.ExchangeRateClient;
 import dev.hari.playground.modernbank.client.impl.ApiExchangeRateClient;
-import dev.hari.playground.modernbank.client.impl.FileExchangeRatesClient;
+import dev.hari.playground.modernbank.client.impl.FileExchangeRateClient;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -23,14 +23,14 @@ public class ExchangeRateClientConfig {
     @Primary
     @ConditionalOnProperty(name = {"apiExchange.enabled"}, havingValue = "true")
     @ConditionalOnExpression("${fileExchange.enabled:false} == false")
-    public ExchangeRatesClient apiExchangeRatesClient(RestTemplate restTemplate) {
+    public ExchangeRateClient apiExchangeRatesClient(RestTemplate restTemplate) {
         return new ApiExchangeRateClient(restTemplate);
     }
 
     @Bean
     @Primary
     @ConditionalOnProperty(name = {"fileExchange.enabled"}, havingValue = "true")
-    public ExchangeRatesClient fileExchangeRatesClient(ObjectMapper objectMapper) {
-        return new FileExchangeRatesClient(objectMapper);
+    public ExchangeRateClient fileExchangeRatesClient(ObjectMapper objectMapper) {
+        return new FileExchangeRateClient(objectMapper);
     }
 }

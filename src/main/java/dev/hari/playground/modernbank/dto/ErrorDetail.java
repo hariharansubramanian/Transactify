@@ -1,4 +1,4 @@
-package dev.hari.playground.modernbank.exception;
+package dev.hari.playground.modernbank.dto;
 
 public class ErrorDetail {
     public int status;

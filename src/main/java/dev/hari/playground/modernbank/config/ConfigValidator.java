@@ -1,6 +1,6 @@
 package dev.hari.playground.modernbank.config;
 
-import dev.hari.playground.modernbank.exception.AppConfigurationException;
+import dev.hari.playground.modernbank.exception.classes.AppConfigurationException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;

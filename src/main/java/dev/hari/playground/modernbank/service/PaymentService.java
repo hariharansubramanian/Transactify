@@ -1,10 +1,10 @@
 package dev.hari.playground.modernbank.service;
 
 import dev.hari.playground.modernbank.dto.processPayment.PaymentRequest;
-import dev.hari.playground.modernbank.exception.ExchangeRatesFetchException;
-import dev.hari.playground.modernbank.exception.InsufficientFundsException;
-import dev.hari.playground.modernbank.exception.InvalidAccountException;
-import dev.hari.playground.modernbank.exception.PaymentRequestValidationException;
+import dev.hari.playground.modernbank.exception.classes.ExchangeRatesFetchException;
+import dev.hari.playground.modernbank.exception.classes.InsufficientFundsException;
+import dev.hari.playground.modernbank.exception.classes.InvalidAccountException;
+import dev.hari.playground.modernbank.exception.classes.PaymentRequestValidationException;
 
 /**
  * Service behaviors for dealing with payments

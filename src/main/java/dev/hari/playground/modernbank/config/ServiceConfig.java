@@ -1,6 +1,6 @@
 package dev.hari.playground.modernbank.config;
 
-import dev.hari.playground.modernbank.client.ExchangeRatesClient;
+import dev.hari.playground.modernbank.client.ExchangeRateClient;
 import dev.hari.playground.modernbank.repository.AccountRepository;
 import dev.hari.playground.modernbank.repository.TransactionRepository;
 import dev.hari.playground.modernbank.service.AccountService;
@@ -40,14 +40,14 @@ public class ServiceConfig {
 
     @Bean
     @ConditionalOnProperty(name = {"bank.enabled"}, havingValue = "true")
-    public PaymentService bankPaymentService(AccountService accountService, TransactionService transactionService, ConversionService conversionService, ExchangeRatesClient exchangeRatesClient) {
+    public PaymentService bankPaymentService(AccountService accountService, TransactionService transactionService, ConversionService conversionService, ExchangeRateClient exchangeRatesClient) {
         return new BankPaymentService(accountService, transactionService, new FiatConversionService(exchangeRatesClient));
     }
 
     @Bean
     @ConditionalOnProperty(name = {"bank.enabled"}, havingValue = "true")
     @Primary
-    public ConversionService bankConversionService(ExchangeRatesClient exchangeRatesClient) {
+    public ConversionService bankConversionService(ExchangeRateClient exchangeRatesClient) {
         return new FiatConversionService(exchangeRatesClient);
     }
 

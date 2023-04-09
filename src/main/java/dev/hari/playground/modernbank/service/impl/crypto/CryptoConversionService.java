@@ -1,6 +1,6 @@
 package dev.hari.playground.modernbank.service.impl.crypto;
 
-import dev.hari.playground.modernbank.exception.ExchangeRatesFetchException;
+import dev.hari.playground.modernbank.exception.classes.ExchangeRatesFetchException;
 import dev.hari.playground.modernbank.service.ConversionService;
 import org.apache.commons.lang3.NotImplementedException;
 
