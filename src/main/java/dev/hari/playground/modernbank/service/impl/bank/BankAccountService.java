@@ -1,4 +1,4 @@
-package dev.hari.playground.modernbank.service.impl;
+package dev.hari.playground.modernbank.service.impl.bank;
 
 import dev.hari.playground.modernbank.dto.getBalance.GetAccountBalanceResult;
 import dev.hari.playground.modernbank.dto.getDetails.GetAccountDetailsResult;
@@ -11,14 +11,12 @@ import dev.hari.playground.modernbank.repository.AccountRepository;
 import dev.hari.playground.modernbank.service.AccountService;
 import dev.hari.playground.modernbank.service.TransactionService;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
 /**
  * Bank specific implementations of {@link AccountService} behaviors for {@link Account}
  */
-@Service
 public class BankAccountService implements AccountService {
     /**
      * Max number of transactions that can be requested for a statement, this is to prevent a client from requesting for a huge number of transactions and causing a performance issue

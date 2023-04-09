@@ -1,23 +1,27 @@
-package dev.hari.playground.modernbank.service.impl;
+package dev.hari.playground.modernbank.service.impl.bank;
 
 import dev.hari.playground.modernbank.dto.processPayment.PaymentRequest;
-import dev.hari.playground.modernbank.exception.*;
+import dev.hari.playground.modernbank.exception.ExchangeRatesFetchException;
+import dev.hari.playground.modernbank.exception.InsufficientFundsException;
+import dev.hari.playground.modernbank.exception.InvalidAccountException;
+import dev.hari.playground.modernbank.exception.PaymentRequestValidationException;
 import dev.hari.playground.modernbank.model.TransactionType;
+import dev.hari.playground.modernbank.service.AccountService;
 import dev.hari.playground.modernbank.service.ConversionService;
 import dev.hari.playground.modernbank.service.PaymentService;
+import dev.hari.playground.modernbank.service.TransactionService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 /**
  * Bank specific implementations of {@link PaymentService} behaviors for payments
  */
-@Service
 public class BankPaymentService implements PaymentService {
-    private final BankAccountService accountService;
-    private final BankTransactionService transactionService;
+    private final AccountService accountService;
+    private final TransactionService transactionService;
     private final ConversionService conversionService;
 
-    public BankPaymentService(BankAccountService accountService, BankTransactionService transactionService, ConversionService conversionService) {
+    public BankPaymentService(AccountService accountService, TransactionService transactionService, ConversionService conversionService) {
         this.accountService = accountService;
         this.transactionService = transactionService;
         this.conversionService = conversionService;
@@ -30,7 +34,7 @@ public class BankPaymentService implements PaymentService {
         request.Validate();
 
         // Get the source account
-        var sourceAccount = accountService.getAccountOrThrow(request.sourceAccountId,true);
+        var sourceAccount = accountService.getAccountOrThrow(request.sourceAccountId, true);
 
         // Check if the source account has sufficient funds
         if (!sourceAccount.canAffordAmount(request.amount)) {
@@ -38,7 +42,7 @@ public class BankPaymentService implements PaymentService {
         }
 
         // Get the destination account
-        var destinationAccount = accountService.getAccountOrThrow(request.destinationAccountId,true);
+        var destinationAccount = accountService.getAccountOrThrow(request.destinationAccountId, true);
 
         // Convert the amount to destination account currency
         var convertedAmount = conversionService.convert(request.amount, sourceAccount.currency, destinationAccount.currency);

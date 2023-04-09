@@ -1,4 +1,4 @@
-package dev.hari.playground.modernbank.service.impl;
+package dev.hari.playground.modernbank.service.impl.bank;
 
 import dev.hari.playground.modernbank.model.Account;
 import dev.hari.playground.modernbank.model.Transaction;
@@ -8,7 +8,6 @@ import dev.hari.playground.modernbank.repository.TransactionRepository;
 import dev.hari.playground.modernbank.service.TransactionService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.List;
 /**
  * Bank specific implementations of {@link TransactionService} behaviors for {@link Transaction}
  */
-@Service
 public class BankTransactionService implements TransactionService {
 
     private final TransactionRepository transactionRepository;

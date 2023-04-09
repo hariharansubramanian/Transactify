@@ -6,7 +6,7 @@ import dev.hari.playground.modernbank.exception.ExceededMaxRequestedTransactions
 import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.model.builders.AccountBuilder;
 import dev.hari.playground.modernbank.repository.AccountRepository;
-import dev.hari.playground.modernbank.service.impl.BankAccountService;
+import dev.hari.playground.modernbank.service.impl.bank.BankAccountService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

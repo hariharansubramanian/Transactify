@@ -14,11 +14,11 @@ import java.util.Currency;
  * Client for fetching exchange rates from external API
  */
 @Component
-public class ExchangeRateApiClient implements ExchangeRatesClient {
+public class ApiExchangeRateClient implements ExchangeRatesClient {
     private final RestTemplate restTemplate;
     private static final String API_PATH = "https://open.er-api.com/v6/latest/"; // TODO: Move to config
 
-    public ExchangeRateApiClient(RestTemplate restTemplate) {
+    public ApiExchangeRateClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 

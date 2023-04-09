@@ -3,12 +3,11 @@ package dev.hari.playground.modernbank.repository.impl;
 import dev.hari.playground.modernbank.database.InMemoryDatabase;
 import dev.hari.playground.modernbank.model.Account;
 import dev.hari.playground.modernbank.repository.AccountRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  * InMemory implementation of {@link AccountRepository}
  */
-@Repository
+
 public class InMemoryAccountRepository implements AccountRepository {
     private final InMemoryDatabase db;
 

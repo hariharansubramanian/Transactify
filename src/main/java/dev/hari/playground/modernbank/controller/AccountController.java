@@ -7,7 +7,7 @@ import dev.hari.playground.modernbank.exception.ErrorDetail;
 import dev.hari.playground.modernbank.exception.ExceededMaxRequestedTransactionsException;
 import dev.hari.playground.modernbank.exception.InvalidAccountException;
 import dev.hari.playground.modernbank.service.AccountService;
-import dev.hari.playground.modernbank.service.impl.BankAccountService;
+import dev.hari.playground.modernbank.service.impl.bank.BankAccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

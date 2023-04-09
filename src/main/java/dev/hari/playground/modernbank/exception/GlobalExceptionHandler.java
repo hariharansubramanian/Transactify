@@ -1,5 +1,6 @@
 package dev.hari.playground.modernbank.exception;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -47,6 +48,18 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ErrorDetail handleExchangeRatesFetchException(ExchangeRatesFetchException e) {
         return new ErrorDetail(HttpStatus.SERVICE_UNAVAILABLE.value(), e.getMessage());
+    }
+
+    /**
+     * Handles {@link NotImplementedException} and returns {@link ErrorDetail} with a {@link HttpStatus#NOT_IMPLEMENTED} status code
+     *
+     * @param e The exception
+     * @return {@link ErrorDetail} with {@link HttpStatus#NOT_IMPLEMENTED}
+     */
+    @ExceptionHandler(NotImplementedException.class)
+    @ResponseBody
+    public ErrorDetail handleNotImplementedException(NotImplementedException e) {
+        return new ErrorDetail(HttpStatus.NOT_IMPLEMENTED.value(), e.getMessage());
     }
 
     /**

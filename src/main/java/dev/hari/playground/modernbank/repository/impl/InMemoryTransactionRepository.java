@@ -5,7 +5,6 @@ import dev.hari.playground.modernbank.model.Account;
 import dev.hari.playground.modernbank.model.Transaction;
 import dev.hari.playground.modernbank.repository.TransactionRepository;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -14,7 +13,7 @@ import java.util.List;
 /**
  * InMemory implementation of {@link TransactionRepository}
  */
-@Repository
+
 public class InMemoryTransactionRepository implements TransactionRepository {
     private final InMemoryDatabase db;
 

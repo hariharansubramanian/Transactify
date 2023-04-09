@@ -1,4 +1,4 @@
-package dev.hari.playground.modernbank.service.impl;
+package dev.hari.playground.modernbank.service.impl.bank;
 
 import dev.hari.playground.modernbank.client.ExchangeRatesClient;
 import dev.hari.playground.modernbank.exception.ExchangeRatesFetchException;
@@ -9,14 +9,13 @@ import java.math.BigDecimal;
 import java.util.Currency;
 
 /**
- * Currency specific implementations of {@link ConversionService} behaviors
+ * Fiat Currency specific implementations of {@link ConversionService} behaviors
  */
-@Service
-public class CurrencyConversionService implements ConversionService {
+public class FiatConversionService implements ConversionService {
 
     private final ExchangeRatesClient conversionApiClient;
 
-    public CurrencyConversionService(ExchangeRatesClient conversionApiClient) {
+    public FiatConversionService(ExchangeRatesClient conversionApiClient) {
         this.conversionApiClient = conversionApiClient;
     }
 
