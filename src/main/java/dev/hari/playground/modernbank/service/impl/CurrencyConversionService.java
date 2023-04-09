@@ -1,6 +1,6 @@
 package dev.hari.playground.modernbank.service.impl;
 
-import dev.hari.playground.modernbank.client.CurrencyApiClient;
+import dev.hari.playground.modernbank.client.ExchangeRatesClient;
 import dev.hari.playground.modernbank.exception.ExchangeRatesFetchException;
 import dev.hari.playground.modernbank.service.ConversionService;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ import java.util.Currency;
 @Service
 public class CurrencyConversionService implements ConversionService {
 
-    private final CurrencyApiClient currencyApiClient;
+    private final ExchangeRatesClient conversionApiClient;
 
-    public CurrencyConversionService(CurrencyApiClient currencyApiClient) {
-        this.currencyApiClient = currencyApiClient;
+    public CurrencyConversionService(ExchangeRatesClient conversionApiClient) {
+        this.conversionApiClient = conversionApiClient;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class CurrencyConversionService implements ConversionService {
         }
 
         // Get the exchange rates
-        var response = currencyApiClient.getExchangeRates(sourceCurrency);
+        var response = conversionApiClient.getExchangeRates(sourceCurrency);
 
         // Get the conversion rate for destination currency
         var conversionRate = response.rates.get(destinationCurrency.getCurrencyCode());

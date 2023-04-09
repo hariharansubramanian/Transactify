@@ -1,5 +1,6 @@
-package dev.hari.playground.modernbank.client;
+package dev.hari.playground.modernbank.client.impl;
 
+import dev.hari.playground.modernbank.client.ExchangeRatesClient;
 import dev.hari.playground.modernbank.dto.processPayment.GetExchangeRatesResponse;
 import dev.hari.playground.modernbank.exception.ExchangeRatesFetchException;
 import org.springframework.http.HttpStatus;
@@ -13,14 +14,21 @@ import java.util.Currency;
  * Client for fetching exchange rates from external API
  */
 @Component
-public class CurrencyApiClient {
+public class ExchangeRateApiClient implements ExchangeRatesClient {
     private final RestTemplate restTemplate;
     private static final String API_PATH = "https://open.er-api.com/v6/latest/"; // TODO: Move to config
 
-    public CurrencyApiClient(RestTemplate restTemplate) {
+    public ExchangeRateApiClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
+    /**
+     * Fetches exchange rates from external API
+     *
+     * @param baseCurrency base currency
+     * @return exchange rates of currencies against base currency
+     * @throws ExchangeRatesFetchException if failed to fetch exchange rates
+     */
     public GetExchangeRatesResponse getExchangeRates(Currency baseCurrency) throws ExchangeRatesFetchException {
         String apiUrl = API_PATH + baseCurrency.getCurrencyCode();
 

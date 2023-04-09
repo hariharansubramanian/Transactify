@@ -8,6 +8,10 @@ import java.util.Map;
  */
 public class GetExchangeRatesResponse {
     public Map<String, BigDecimal> rates;
+
+    public GetExchangeRatesResponse(Map<String, BigDecimal> ratesMap) {
+        rates = ratesMap;
+    }
 }
 
 
