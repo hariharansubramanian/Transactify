@@ -9,10 +9,12 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>dev.hari.playground</groupId>
-    <artifactId>modern-bank</artifactId>
+    <artifactId>transactify</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>modern-bank</name>
-    <description>modern-bank</description>
+    <name>transactify</name>
+    <description>Transactify is a modern banking application that allows users to manage their bank and crypto accounts,
+        track their transactions, and perform currency conversions and payments with ease.
+    </description>
     <properties>
         <java.version>17</java.version>
     </properties>

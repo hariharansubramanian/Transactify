@@ -7,9 +7,9 @@
 - Installed JDK 18
 - Created new project with Sprint initializer with Maven
 - Docker Build:
-    - `docker build -t modern-bank-app .`
+    - `docker build -t transactify .`
 - Docker run:
-    - `docker run modern-bank-app`
+    - `docker run -p 8080:8080 transactify`
 - Swagger
   -The Swagger UI page will then be available at http://localhost:8080/swagger-ui.html
   - OpenAPI description will be available at the following url for json format: http://localhost:8080/context-path/v3/api-docs 
@@ -19,9 +19,9 @@
 
 - [x] Add Swagger
 - [x] Dockerize the app
-- [ ] Add H2 in-memory database
-- [ ] Create entities
-- [ ] Setup Database generation with seed
-- [ ] Create Services
-- [ ] Create repositories
-- [ ] Create tests
+- [x] Add H2 in-memory database
+- [x] Create entities
+- [x] Setup Database generation with seed
+- [x] Create Services
+- [x] Create repositories
+- [x] Create tests
